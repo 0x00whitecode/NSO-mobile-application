@@ -1,0 +1,50 @@
+# Root
+.DS_Store
+Thumbs.db
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# Node
+node_modules/
+.npm/
+.pnpm-store/
+
+# Environment files
+.env
+.env.*
+!.env.example
+admin/.env.local
+admin/.env.development.local
+admin/.env.test.local
+admin/.env.production.local
+backend/.env.local
+backend/.env.development.local
+backend/.env.test.local
+backend/.env.production.local
+
+# Admin build output
+admin/build/
+admin/.cache/
+
+# Mobile (Expo)
+mobile/.expo/
+mobile/.expo-shared/
+mobile/web-build/
+mobile/dist/
+mobile/.cache/
+
+# Backend
+backend/coverage/
+backend/tmp/
+backend/.cache/
+backend/storage/
+
+# OS/Editor junk
+.idea/
+.vscode/
+*.swp
+*.swo
+

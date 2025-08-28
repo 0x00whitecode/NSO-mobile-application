@@ -1,0 +1,2082 @@
+{
+  "NEONATES (0-28 days) - IMMEDIATE NEWBORN CARE": [
+    {
+      "record_id": "NEO_CARE_001",
+      "category": "Well Newborn - Immediate Care",
+      "age_group": "0-28 days (Neonate)",
+      "medical_system": "Neonatal Care",
+      "severity": "Routine Care",
+      "chief_complaint": "Routine newborn care and assessment",
+      "clinical_findings": [
+        "Normal vital signs for gestational age",
+        "Appropriate weight for gestational age (2.5-4.0 kg for term)",
+        "Normal reflexes (Moro, rooting, sucking, grasp)",
+        "Clear airway and spontaneous breathing",
+        "Normal skin color and perfusion",
+        "Intact umbilical cord with 3 vessels",
+        "APGAR score >7 at 5 minutes"
+      ],
+      "immediate_actions": [
+        "Dry and warm the baby immediately",
+        "Clear airway if needed (suction mouth then nose)",
+        "Assess breathing and heart rate",
+        "Administer Vitamin K 1mg IM within 6 hours",
+        "Apply eye prophylaxis within 2 hours",
+        "Initiate skin-to-skin contact with mother",
+        "Encourage early breastfeeding within 1 hour"
+      ],
+      "medications": [
+        {
+          "name": "Vitamin K (Phytomenadione)",
+          "dose": "1mg intramuscular",
+          "timing": "Within 6 hours of birth",
+          "indication": "Prevention of vitamin K deficiency bleeding"
+        },
+        {
+          "name": "Eye prophylaxis",
+          "agent": "Tetracycline 1% ointment",
+          "application": "Both eyes within 2 hours",
+          "indication": "Prevention of ophthalmia neonatorum"
+        }
+      ],
+      "health_education": [
+        "Exclusive breastfeeding for first 6 months",
+        "Safe sleep practices (back sleeping, firm mattress)",
+        "Umbilical cord care with antiseptic",
+        "Recognition of danger signs (difficulty breathing, poor feeding, fever)",
+        "Importance of immunization schedule starting at 6 weeks",
+        "When to seek immediate medical care"
+      ]
+    }
+  ],
+  "NEONATES (0-28 days) - EMERGENCIES": [
+    {
+      "record_id": "NEO_EMERG_001",
+      "category": "Difficult Breathing in Newborn",
+      "age_group": "0-28 days (Neonate)",
+      "medical_system": "Respiratory Emergency",
+      "severity": "Critical",
+      "chief_complaint": "Newborn with breathing difficulties, cyanosis, or respiratory distress",
+      "clinical_findings": [
+        "Respiratory rate >60 or <30 breaths/minute",
+        "Central cyanosis (blue lips, tongue)",
+        "Chest retractions (subcostal, intercostal)",
+        "Nasal flaring and grunting",
+        "Apnea episodes >20 seconds",
+        "Poor feeding due to breathing difficulty"
+      ],
+      "differential_diagnosis": [
+        "Respiratory distress syndrome (RDS)",
+        "Transient tachypnea of newborn",
+        "Meconium aspiration syndrome",
+        "Pneumonia",
+        "Pneumothorax",
+        "Congenital heart disease"
+      ],
+      "immediate_actions": [
+        "Assess airway, breathing, circulation",
+        "Provide oxygen support immediately",
+        "Monitor oxygen saturation continuously",
+        "REFER IMMEDIATELY to neonatal intensive care"
+      ],
+      "referral_criteria": [
+        "ALL cases of neonatal respiratory distress",
+        "Any breathing difficulty in newborn",
+        "Central cyanosis",
+        "Apnea episodes"
+      ]
+    },
+    {
+      "record_id": "NEO_EMERG_002",
+      "category": "Umbilical Cord Problems",
+      "age_group": "0-28 days (Neonate)",
+      "medical_system": "Neonatal Emergency",
+      "severity": "Moderate to Severe",
+      "chief_complaint": "Umbilical cord bleeding, infection, or abnormalities",
+      "clinical_findings": [
+        "Active bleeding from umbilical stump",
+        "Erythema extending >2cm from umbilicus",
+        "Purulent discharge with foul odor",
+        "Delayed cord separation >14 days",
+        "Umbilical granuloma or polyp",
+        "Signs of systemic infection"
+      ],
+      "differential_diagnosis": [
+        "Umbilical hemorrhage",
+        "Omphalitis (umbilical infection)",
+        "Umbilical granuloma",
+        "Umbilical hernia",
+        "Patent urachus",
+        "Omphalomesenteric duct remnant"
+      ],
+      "immediate_actions": [
+        "Control bleeding with direct pressure",
+        "Clean umbilical area with antiseptic",
+        "Assess for signs of systemic infection",
+        "Start antibiotics if infection present"
+      ],
+      "medications": [
+        {
+          "name": "Topical antiseptic",
+          "agent": "Chlorhexidine 4%",
+          "frequency": "2-3 times daily"
+        },
+        {
+          "name": "Systemic antibiotics (if infected)",
+          "regimen": "Cloxacillin + Gentamicin",
+          "duration": "7-10 days"
+        }
+      ]
+    },
+    {
+      "record_id": "NEO_EMERG_003",
+      "category": "Birth Asphyxia",
+      "age_group": "0-28 days (Neonate)",
+      "medical_system": "Neonatal Emergency",
+      "severity": "Critical",
+      "chief_complaint": "Newborn with poor breathing, low heart rate, or poor muscle tone at birth",
+      "clinical_findings": [
+        "APGAR score <7 at 5 minutes",
+        "Absent or gasping respirations",
+        "Heart rate <100 bpm",
+        "Poor muscle tone and reflexes",
+        "Central cyanosis or pallor",
+        "Meconium-stained amniotic fluid",
+        "Signs of hypoxic-ischemic encephalopathy"
+      ],
+      "differential_diagnosis": [
+        "Severe birth asphyxia",
+        "Meconium aspiration syndrome",
+        "Congenital heart disease",
+        "Sepsis",
+        "Congenital diaphragmatic hernia",
+        "Neuromuscular disorders"
+      ],
+      "immediate_actions": [
+        "Initiate neonatal resuscitation protocol immediately",
+        "Dry, warm, and position baby",
+        "Clear airway (suction if meconium present)",
+        "Provide positive pressure ventilation if needed",
+        "Chest compressions if heart rate <60 bpm",
+        "Administer epinephrine if indicated",
+        "URGENT referral to NICU"
+      ],
+      "medications": [
+        {
+          "name": "Epinephrine",
+          "dose": "0.1-0.3 mL/kg of 1:10,000 solution IV/IO",
+          "indication": "Heart rate <60 bpm despite adequate ventilation and chest compressions",
+          "route": "Umbilical vein preferred"
+        },
+        {
+          "name": "Sodium bicarbonate",
+          "dose": "2 mEq/kg IV slowly",
+          "indication": "Prolonged resuscitation with adequate ventilation",
+          "caution": "Only after establishing adequate ventilation"
+        }
+      ],
+      "referral_criteria": [
+        "ALL cases of birth asphyxia",
+        "APGAR <7 at 5 minutes",
+        "Need for resuscitation beyond initial steps",
+        "Signs of organ dysfunction"
+      ],
+      "follow_up": [
+        "Neurological assessment at 24-48 hours",
+        "Monitor for seizures and feeding difficulties",
+        "Developmental follow-up at 6, 12, 18 months",
+        "Early intervention services if indicated"
+      ]
+    },
+    {
+      "record_id": "NEO_EMERG_004",
+      "category": "Neonatal Sepsis",
+      "age_group": "0-28 days (Neonate)",
+      "medical_system": "Infectious Disease",
+      "severity": "Severe",
+      "chief_complaint": "Newborn with signs of infection or systemic illness",
+      "clinical_findings": [
+        "Temperature instability (fever >38°C or hypothermia <36°C)",
+        "Poor feeding or feeding intolerance",
+        "Lethargy or irritability",
+        "Respiratory distress or apnea",
+        "Jaundice (especially if early onset)",
+        "Hypoglycemia or hyperglycemia",
+        "Seizures or abnormal movements",
+        "Skin mottling or poor perfusion"
+      ],
+      "risk_factors": [
+        "Maternal fever during labor",
+        "Prolonged rupture of membranes >18 hours",
+        "Maternal GBS colonization",
+        "Preterm delivery <37 weeks",
+        "Low birth weight <2500g",
+        "Invasive procedures",
+        "Prolonged hospitalization"
+      ],
+      "differential_diagnosis": [
+        "Early-onset sepsis (Group B Strep, E. coli)",
+        "Late-onset sepsis (Staph epidermidis, Candida)",
+        "Meningitis",
+        "Pneumonia",
+        "Urinary tract infection",
+        "Necrotizing enterocolitis"
+      ],
+      "immediate_actions": [
+        "Obtain blood, urine, and CSF cultures before antibiotics",
+        "Start empirical antibiotic therapy immediately",
+        "Monitor vital signs and glucose closely",
+        "Provide supportive care (IV fluids, oxygen)",
+        "URGENT referral to NICU"
+      ],
+      "medications": [
+        {
+          "name": "Ampicillin + Gentamicin (first-line)",
+          "ampicillin_dose": "100-150 mg/kg/day divided q8-12h",
+          "gentamicin_dose": "4-5 mg/kg/day divided q24-48h",
+          "duration": "7-10 days minimum",
+          "monitoring": "Renal function, hearing assessment"
+        },
+        {
+          "name": "Alternative regimen",
+          "option": "Penicillin G + Gentamicin",
+          "indication": "If ampicillin not available",
+          "penicillin_dose": "100,000-150,000 units/kg/day"
+        }
+      ],
+      "referral_criteria": [
+        "ALL suspected cases of neonatal sepsis",
+        "Any neonate with fever or hypothermia",
+        "Signs of systemic illness in newborn",
+        "Maternal risk factors present"
+      ]
+    },
+    {
+      "record_id": "NEO_CARE_002",
+      "category": "Neonatal Jaundice",
+      "age_group": "0-28 days (Neonate)",
+      "medical_system": "Neonatal Care",
+      "severity": "Moderate",
+      "chief_complaint": "Yellow discoloration of skin and eyes in newborn",
+      "clinical_findings": [
+        "Visible jaundice (yellow skin and sclera)",
+        "Age of onset (physiologic vs pathologic)",
+        "Progression pattern (head to toe)",
+        "Associated symptoms (poor feeding, lethargy)",
+        "Stool and urine color",
+        "Signs of dehydration"
+      ],
+      "differential_diagnosis": [
+        "Physiologic jaundice (appears day 2-3)",
+        "Breastfeeding jaundice (inadequate intake)",
+        "Breast milk jaundice (late onset)",
+        "ABO/Rh incompatibility",
+        "G6PD deficiency",
+        "Sepsis",
+        "Biliary atresia (conjugated hyperbilirubinemia)"
+      ],
+      "immediate_actions": [
+        "Assess onset, progression, and severity",
+        "Check total and direct bilirubin levels",
+        "Evaluate feeding pattern and weight loss",
+        "Assess for signs of kernicterus",
+        "Initiate phototherapy if indicated"
+      ],
+      "treatment_thresholds": [
+        {
+          "age": "24 hours",
+          "phototherapy_threshold": ">8 mg/dL (137 μmol/L)",
+          "exchange_threshold": ">12 mg/dL (205 μmol/L)"
+        },
+        {
+          "age": "48 hours",
+          "phototherapy_threshold": ">12 mg/dL (205 μmol/L)",
+          "exchange_threshold": ">18 mg/dL (308 μmol/L)"
+        },
+        {
+          "age": "72 hours",
+          "phototherapy_threshold": ">15 mg/dL (257 μmol/L)",
+          "exchange_threshold": ">20 mg/dL (342 μmol/L)"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Phototherapy",
+          "indication": "Bilirubin above age-specific threshold",
+          "method": "LED or fluorescent lights",
+          "monitoring": "Bilirubin levels every 12-24 hours"
+        }
+      ],
+      "referral_criteria": [
+        "Jaundice appearing in first 24 hours",
+        "Bilirubin levels approaching exchange thresholds",
+        "Signs of acute bilirubin encephalopathy",
+        "Conjugated hyperbilirubinemia >2 mg/dL"
+      ],
+      "health_education": [
+        "Importance of adequate breastfeeding",
+        "Recognition of worsening jaundice",
+        "When to seek immediate medical care",
+        "Normal vs concerning jaundice patterns"
+      ]
+    }
+  ],
+  "CHILDREN (1 month - 5 years) - GENERAL CONDITIONS": [
+    {
+      "record_id": "CHILD_GEN_001",
+      "category": "Well Child Visit",
+      "age_group": "1 month - 5 years",
+      "medical_system": "Preventive Care",
+      "severity": "Routine",
+      "chief_complaint": "Routine health maintenance and development assessment",
+      "clinical_findings": [
+        "Normal growth parameters (weight, height, head circumference)",
+        "Age-appropriate developmental milestones",
+        "Normal vital signs for age",
+        "Complete physical examination normal",
+        "Up-to-date immunizations"
+      ],
+      "immediate_actions": [
+        "Plot growth on WHO growth charts",
+        "Assess developmental milestones",
+        "Review immunization status",
+        "Provide anticipatory guidance",
+        "Screen for nutritional deficiencies"
+      ],
+      "health_education": [
+        "Continued breastfeeding with complementary feeding after 6 months",
+        "Injury prevention and safety measures",
+        "Dental hygiene and oral health",
+        "Sleep hygiene and routines",
+        "Recognition of illness signs",
+        "Importance of regular check-ups"
+      ]
+    },
+    {
+      "record_id": "CHILD_FEVER_001",
+      "category": "Fever in Children",
+      "age_group": "2 months - 5 years",
+      "medical_system": "General Pediatrics",
+      "severity": "Moderate",
+      "chief_complaint": "Child with fever and associated symptoms",
+      "clinical_findings": [
+        "Temperature ≥38°C (100.4°F)",
+        "Associated symptoms (cough, runny nose, ear pain)",
+        "General appearance and activity level",
+        "Signs of dehydration",
+        "Rash or skin changes",
+        "Lymph node enlargement"
+      ],
+      "differential_diagnosis": [
+        "Viral upper respiratory infection",
+        "Bacterial infection (pneumonia, UTI, meningitis)",
+        "Malaria (in endemic areas)",
+        "Otitis media",
+        "Gastroenteritis",
+        "Roseola or other viral exanthems"
+      ],
+      "immediate_actions": [
+        "Assess for danger signs (difficulty breathing, lethargy, poor feeding)",
+        "Check for malaria if in endemic area (RDT)",
+        "Provide fever management",
+        "Ensure adequate fluid intake",
+        "Identify source of infection"
+      ],
+      "medications": [
+        {
+          "name": "Paracetamol",
+          "dose": "15mg/kg every 6 hours",
+          "max_dose": "60mg/kg/day",
+          "indication": "Fever >38.5°C or discomfort"
+        },
+        {
+          "name": "Ibuprofen (>6 months)",
+          "dose": "10mg/kg every 6-8 hours",
+          "max_dose": "40mg/kg/day",
+          "contraindication": "Dehydration, kidney disease"
+        }
+      ],
+      "referral_criteria": [
+        "Age <3 months with any fever",
+        "High fever >39.5°C in children <2 years",
+        "Signs of serious bacterial infection",
+        "Persistent fever >5 days",
+        "Danger signs present"
+      ],
+      "follow_up": [
+        "Return visit in 48 hours if fever persists",
+        "Complete course of antibiotics if prescribed",
+        "Monitor for complications",
+        "Routine immunizations as scheduled"
+      ]
+    },
+    {
+      "record_id": "CHILD_GI_001",
+      "category": "Diarrhea in Children",
+      "age_group": "2 months - 5 years",
+      "medical_system": "Gastroenterology",
+      "severity": "Moderate",
+      "chief_complaint": "Loose, watery stools with or without vomiting",
+      "clinical_findings": [
+        "≥3 loose stools per day",
+        "Signs of dehydration (sunken eyes, dry mouth, skin tenting)",
+        "Associated vomiting or fever",
+        "Abdominal pain or cramping",
+        "Blood or mucus in stool",
+        "Recent weight loss"
+      ],
+      "assessment_of_dehydration": [
+        {
+          "severity": "No dehydration",
+          "signs": "Normal appearance, moist mucous membranes",
+          "fluid_deficit": "<3% body weight"
+        },
+        {
+          "severity": "Some dehydration",
+          "signs": "Restless/irritable, sunken eyes, thirsty",
+          "fluid_deficit": "3-9% body weight"
+        },
+        {
+          "severity": "Severe dehydration",
+          "signs": "Lethargic, sunken eyes, unable to drink",
+          "fluid_deficit": ">9% body weight"
+        }
+      ],
+      "differential_diagnosis": [
+        "Viral gastroenteritis (rotavirus, norovirus)",
+        "Bacterial gastroenteritis (Salmonella, Shigella)",
+        "Parasitic infection (Giardia, Cryptosporidium)",
+        "Food poisoning",
+        "Antibiotic-associated diarrhea",
+        "Lactose intolerance"
+      ],
+      "immediate_actions": [
+        "Assess hydration status",
+        "Start oral rehydration therapy (ORT)",
+        "Continue breastfeeding",
+        "Avoid anti-diarrheal medications",
+        "Monitor for danger signs"
+      ],
+      "treatment": [
+        {
+          "no_dehydration": "Continue normal feeding + ORS for ongoing losses",
+          "ors_amount": "10-20 mL/kg for each loose stool"
+        },
+        {
+          "some_dehydration": "ORS 75 mL/kg over 4 hours + ongoing losses",
+          "monitoring": "Reassess every hour"
+        },
+        {
+          "severe_dehydration": "URGENT referral for IV fluids",
+          "emergency_ors": "Give ORS while preparing for referral"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Oral Rehydration Solution (ORS)",
+          "composition": "WHO/UNICEF low-osmolarity ORS",
+          "preparation": "1 packet in 1 liter clean water",
+          "administration": "Small frequent sips"
+        },
+        {
+          "name": "Zinc supplementation",
+          "dose": "20mg daily for 10-14 days (10mg if <6 months)",
+          "indication": "All children with diarrhea",
+          "benefit": "Reduces duration and severity"
+        }
+      ],
+      "referral_criteria": [
+        "Severe dehydration",
+        "Persistent vomiting (unable to keep fluids down)",
+        "Blood in stool with fever",
+        "Signs of severe illness",
+        "Failed ORT"
+      ],
+      "health_education": [
+        "Preparation and use of ORS",
+        "Continued feeding during illness",
+        "Hand hygiene and sanitation",
+        "When to return for care",
+        "Prevention of future episodes"
+      ]
+    },
+    {
+      "record_id": "CHILD_NUTR_001",
+      "category": "Acute Malnutrition",
+      "age_group": "6 months - 5 years",
+      "medical_system": "Nutrition",
+      "severity": "Severe",
+      "chief_complaint": "Poor weight gain, visible wasting, or nutritional edema",
+      "clinical_findings": [
+        "Weight-for-height Z-score <-2 (moderate) or <-3 (severe)",
+        "Mid-upper arm circumference (MUAC) <12.5cm",
+        "Bilateral pitting edema",
+        "Visible severe wasting",
+        "Hair changes (sparse, easily pluckable)",
+        "Skin changes (hypopigmentation, dermatosis)"
+      ],
+      "classification": [
+        {
+          "type": "Severe Acute Malnutrition (SAM)",
+          "criteria": "WHZ <-3 or MUAC <11.5cm or bilateral edema",
+          "management": "Therapeutic feeding program"
+        },
+        {
+          "type": "Moderate Acute Malnutrition (MAM)",
+          "criteria": "WHZ -3 to -2 or MUAC 11.5-12.5cm",
+          "management": "Supplementary feeding program"
+        }
+      ],
+      "appetite_test": [
+        "Offer Ready-to-Use Therapeutic Food (RUTF)",
+        "Pass: Eats readily",
+        "Fail: Refuses or unable to eat"
+      ],
+      "immediate_actions": [
+        "Assess for medical complications",
+        "Perform appetite test",
+        "Check for bilateral edema",
+        "Screen for other conditions",
+        "Initiate appropriate feeding protocol"
+      ],
+      "treatment": [
+        {
+          "uncomplicated_SAM": "Outpatient management with RUTF",
+          "rutf_dose": "200 kcal/kg/day",
+          "follow_up": "Weekly until recovery"
+        },
+        {
+          "complicated_SAM": "Inpatient stabilization required",
+          "complications": "Medical complications, failed appetite test, <6 months"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Ready-to-Use Therapeutic Food (RUTF)",
+          "dose": "2-4 sachets per day based on weight",
+          "duration": "Until WHZ ≥-2 for 2 consecutive visits",
+          "monitoring": "Weekly weight gain"
+        },
+        {
+          "name": "Routine medications",
+          "antibiotics": "Amoxicillin 15mg/kg BID for 7 days",
+          "vitamin_a": "Single high dose based on age",
+          "folic_acid": "5mg once daily"
+        }
+      ],
+      "referral_criteria": [
+        "Medical complications present",
+        "Failed appetite test",
+        "Age <6 months with SAM",
+        "No improvement after 2 weeks of treatment"
+      ],
+      "health_education": [
+        "Proper RUTF administration",
+        "Continued breastfeeding",
+        "Hygiene and infection prevention",
+        "Recognition of danger signs",
+        "Importance of follow-up visits"
+      ]
+    }
+  ],
+  "CHILDREN (1 month - 5 years) - RESPIRATORY CONDITIONS": [
+    {
+      "record_id": "CHILD_RESP_001",
+      "category": "Pneumonia in Children",
+      "age_group": "2 months - 5 years",
+      "medical_system": "Respiratory",
+      "severity": "Severe",
+      "chief_complaint": "Cough, fast breathing, and fever in child",
+      "clinical_findings": [
+        "Fast breathing: >50/min (2-11 months), >40/min (12-59 months)",
+        "Chest indrawing (danger sign)",
+        "Cough or difficult breathing",
+        "Fever or history of fever",
+        "Nasal flaring",
+        "Unable to feed or drink"
+      ],
+      "differential_diagnosis": [
+        "Bacterial pneumonia (S. pneumoniae, H. influenzae)",
+        "Viral pneumonia (RSV, influenza)",
+        "Atypical pneumonia (Mycoplasma)",
+        "Bronchiolitis",
+        "Asthma exacerbation"
+      ],
+      "immediate_actions": [
+        "Assess for danger signs",
+        "Give first dose of antibiotic",
+        "Provide supportive care",
+        "Refer if danger signs present"
+      ],
+      "medications": [
+        {
+          "name": "Amoxicillin (first-line)",
+          "dose": "90mg/kg/day divided BID",
+          "duration": "5 days",
+          "route": "Oral"
+        },
+        {
+          "name": "Co-trimoxazole (alternative)",
+          "dose": "8mg/kg/day TMP component BID",
+          "duration": "5 days",
+          "indication": "Amoxicillin not available"
+        }
+      ],
+      "referral_criteria": [
+        "Chest indrawing",
+        "Unable to feed or drink",
+        "Vomits everything",
+        "Convulsions",
+        "Lethargic or unconscious"
+      ],
+      "follow_up": [
+        "Return in 48 hours if not improving",
+        "Complete antibiotic course",
+        "Follow-up chest X-ray if severe pneumonia",
+        "Ensure completion of immunizations"
+      ]
+    },
+    {
+      "record_id": "CHILD_RESP_002",
+      "category": "Bronchiolitis",
+      "age_group": "2-24 months",
+      "medical_system": "Respiratory",
+      "severity": "Moderate",
+      "chief_complaint": "Cough, wheezing, and difficulty breathing in infant",
+      "clinical_findings": [
+        "Viral prodrome (runny nose, low-grade fever)",
+        "Progressive cough and wheezing",
+        "Tachypnea and increased work of breathing",
+        "Fine crackles and wheeze on auscultation",
+        "Feeding difficulties",
+        "Irritability and restlessness"
+      ],
+      "differential_diagnosis": [
+        "Respiratory syncytial virus (RSV) bronchiolitis",
+        "Other viral bronchiolitis (parainfluenza, adenovirus)",
+        "Asthma (less likely <12 months)",
+        "Pneumonia",
+        "Foreign body aspiration"
+      ],
+      "immediate_actions": [
+        "Assess severity and oxygen saturation",
+        "Provide supportive care",
+        "Ensure adequate hydration",
+        "Monitor for deterioration",
+        "Consider referral if severe"
+      ],
+      "treatment": [
+        "Supportive care is mainstay",
+        "Maintain adequate hydration",
+        "Nasal saline drops and suction",
+        "Oxygen if SpO2 <90%",
+        "Bronchodilators NOT routinely recommended"
+      ],
+      "referral_criteria": [
+        "Oxygen saturation <90%",
+        "Severe respiratory distress",
+        "Poor feeding or dehydration",
+        "Age <3 months",
+        "High-risk conditions (prematurity, heart disease)"
+      ],
+      "health_education": [
+        "Expected course (peaks day 3-5, resolves 7-10 days)",
+        "Supportive care measures",
+        "When to seek immediate care",
+        "Prevention of spread to others"
+      ]
+    },
+    {
+      "record_id": "CHILD_DEV_001",
+      "category": "Developmental Delay",
+      "age_group": "6 months - 5 years",
+      "medical_system": "Developmental Pediatrics",
+      "severity": "Moderate",
+      "chief_complaint": "Concerns about child's development or missed milestones",
+      "clinical_findings": [
+        "Delayed achievement of developmental milestones",
+        "Loss of previously acquired skills",
+        "Significant delay in one or more domains",
+        "Abnormal neurological examination",
+        "Behavioral concerns",
+        "Growth abnormalities"
+      ],
+      "developmental_domains": [
+        {
+          "domain": "Gross Motor",
+          "red_flags": "Not sitting by 9 months, not walking by 18 months"
+        },
+        {
+          "domain": "Fine Motor",
+          "red_flags": "No pincer grasp by 12 months, no scribbling by 2 years"
+        },
+        {
+          "domain": "Language",
+          "red_flags": "No words by 16 months, no 2-word phrases by 2 years"
+        },
+        {
+          "domain": "Social/Cognitive",
+          "red_flags": "No social smile by 3 months, no pretend play by 2 years"
+        }
+      ],
+      "immediate_actions": [
+        "Complete developmental screening",
+        "Detailed history and examination",
+        "Hearing and vision assessment",
+        "Consider underlying medical causes",
+        "Refer for early intervention services"
+      ],
+      "investigations": [
+        "Hearing assessment (audiometry)",
+        "Vision screening",
+        "Thyroid function tests",
+        "Lead level if indicated",
+        "Genetic testing if dysmorphic features"
+      ],
+      "referral_criteria": [
+        "Significant delay in any domain",
+        "Loss of developmental milestones",
+        "Parental concerns about development",
+        "Failed developmental screening"
+      ],
+      "health_education": [
+        "Importance of early intervention",
+        "Stimulation activities for home",
+        "Realistic expectations and goals",
+        "Available community resources",
+        "Regular follow-up importance"
+      ]
+    }
+  ],
+  "CHILDREN (6-12 years) - SCHOOL HEALTH": [
+    {
+      "record_id": "SCHOOL_001",
+      "category": "School Health Assessment",
+      "age_group": "6-12 years (School Age)",
+      "medical_system": "School Health",
+      "severity": "Routine",
+      "chief_complaint": "Routine school health screening and assessment",
+      "clinical_findings": [
+        "Normal growth and development for age",
+        "Visual acuity assessment",
+        "Hearing screening",
+        "Dental examination",
+        "Nutritional status assessment",
+        "Immunization status review"
+      ],
+      "immediate_actions": [
+        "Complete physical examination",
+        "Vision and hearing screening",
+        "Assess learning difficulties",
+        "Review immunization records",
+        "Provide health education"
+      ],
+      "health_education": [
+        "Personal hygiene and handwashing",
+        "Dental care and oral hygiene",
+        "Nutrition and healthy eating",
+        "Physical activity and exercise",
+        "Safety measures and injury prevention",
+        "Puberty education (age-appropriate)"
+      ]
+    }
+  ],
+  "ADOLESCENTS (12-18 years) - REPRODUCTIVE HEALTH": [
+    {
+      "record_id": "ADOL_REPRO_001",
+      "category": "Puberty Concerns - Female",
+      "age_group": "12-18 years (Adolescent)",
+      "medical_system": "Adolescent Medicine",
+      "severity": "Routine to Moderate",
+      "chief_complaint": "Questions or concerns about pubertal development in females",
+      "clinical_findings": [
+        "Tanner staging of breast and pubic hair development",
+        "Age at menarche (normal 9-16 years)",
+        "Menstrual cycle characteristics",
+        "Growth spurt assessment",
+        "Psychological adjustment to changes"
+      ],
+      "differential_diagnosis": [
+        "Normal pubertal development",
+        "Precocious puberty (<8 years)",
+        "Delayed puberty (>13 years no breast development)",
+        "Primary amenorrhea (no menses by 16 years)",
+        "Polycystic ovary syndrome"
+      ],
+      "health_education": [
+        "Normal pubertal development timeline",
+        "Menstrual hygiene management",
+        "Body image and self-esteem",
+        "Nutrition during adolescence",
+        "Sexual health education",
+        "When to seek medical advice"
+      ],
+      "follow_up": [
+        "Annual health assessments",
+        "Monitor pubertal progression",
+        "Address concerns as they arise",
+        "Transition to adult care planning"
+      ]
+    },
+    {
+      "record_id": "ADOL_MENTAL_001",
+      "category": "Depression in Adolescents",
+      "age_group": "12-18 years (Adolescent)",
+      "medical_system": "Mental Health",
+      "severity": "Moderate to Severe",
+      "chief_complaint": "Persistent sadness, mood changes, or behavioral problems",
+      "clinical_findings": [
+        "Persistent depressed mood >2 weeks",
+        "Loss of interest in activities",
+        "Significant weight loss or gain",
+        "Sleep disturbances (insomnia or hypersomnia)",
+        "Fatigue or loss of energy",
+        "Feelings of worthlessness or guilt",
+        "Difficulty concentrating",
+        "Thoughts of death or suicide"
+      ],
+      "risk_factors": [
+        "Family history of depression",
+        "Previous episodes of depression",
+        "Chronic medical conditions",
+        "Substance abuse",
+        "Trauma or abuse history",
+        "Social isolation",
+        "Academic or social stressors"
+      ],
+      "screening_tools": [
+        "Patient Health Questionnaire-9 (PHQ-9)",
+        "Beck Depression Inventory",
+        "Children's Depression Rating Scale"
+      ],
+      "immediate_actions": [
+        "Assess suicide risk immediately",
+        "Ensure safety planning",
+        "Involve family/caregivers",
+        "Consider need for immediate referral",
+        "Initiate treatment plan"
+      ],
+      "suicide_risk_assessment": [
+        "Direct questioning about suicidal thoughts",
+        "Assess plan, means, and intent",
+        "Evaluate protective factors",
+        "Determine level of supervision needed"
+      ],
+      "treatment": [
+        {
+          "mild_depression": "Psychotherapy, lifestyle modifications",
+          "monitoring": "Close follow-up every 1-2 weeks"
+        },
+        {
+          "moderate_severe": "Psychotherapy + medication consideration",
+          "first_line": "Fluoxetine (FDA approved for adolescents)"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Fluoxetine",
+          "starting_dose": "10mg daily",
+          "target_dose": "20mg daily",
+          "monitoring": "Weekly for first month, then biweekly",
+          "warnings": "Black box warning - increased suicidal thoughts"
+        }
+      ],
+      "referral_criteria": [
+        "Active suicidal ideation",
+        "Severe depression with functional impairment",
+        "Psychotic features",
+        "Substance abuse comorbidity",
+        "Failed initial treatment"
+      ],
+      "health_education": [
+        "Understanding depression as medical condition",
+        "Importance of treatment adherence",
+        "Recognition of warning signs",
+        "Coping strategies and stress management",
+        "Family support and involvement"
+      ]
+    },
+    {
+      "record_id": "ADOL_SUBST_001",
+      "category": "Substance Abuse in Adolescents",
+      "age_group": "12-18 years (Adolescent)",
+      "medical_system": "Addiction Medicine",
+      "severity": "Moderate to Severe",
+      "chief_complaint": "Concerns about alcohol or drug use",
+      "clinical_findings": [
+        "Changes in academic performance",
+        "Behavioral changes or mood swings",
+        "New peer group or secretive behavior",
+        "Physical signs (bloodshot eyes, smell)",
+        "Missing money or valuables",
+        "Neglecting responsibilities",
+        "Legal problems"
+      ],
+      "screening_tools": [
+        "CRAFFT screening tool",
+        "AUDIT (Alcohol Use Disorders Identification Test)",
+        "Drug Abuse Screening Test (DAST)"
+      ],
+      "crafft_questions": [
+        "Car: Ever ridden in car driven by someone high/drunk?",
+        "Relax: Do you use alcohol/drugs to relax?",
+        "Alone: Do you use alcohol/drugs while alone?",
+        "Forget: Do you forget things while using?",
+        "Friends/Family: Do they tell you to cut down?",
+        "Trouble: Have you gotten into trouble while using?"
+      ],
+      "immediate_actions": [
+        "Conduct confidential screening",
+        "Assess severity of use",
+        "Evaluate for medical complications",
+        "Assess motivation for change",
+        "Develop treatment plan"
+      ],
+      "treatment_approaches": [
+        "Motivational interviewing",
+        "Cognitive-behavioral therapy",
+        "Family therapy",
+        "Peer support groups",
+        "Intensive outpatient programs"
+      ],
+      "referral_criteria": [
+        "Severe substance use disorder",
+        "Medical complications",
+        "Psychiatric comorbidities",
+        "Failed outpatient treatment",
+        "Safety concerns"
+      ],
+      "health_education": [
+        "Risks of substance use in adolescence",
+        "Impact on brain development",
+        "Legal consequences",
+        "Healthy coping strategies",
+        "Family involvement in recovery"
+      ]
+    },
+    {
+      "record_id": "ADOL_REPRO_002",
+      "category": "Contraception Counseling",
+      "age_group": "12-18 years (Adolescent)",
+      "medical_system": "Reproductive Health",
+      "severity": "Routine",
+      "chief_complaint": "Request for contraception or family planning advice",
+      "clinical_findings": [
+        "Sexual history and activity",
+        "Previous contraceptive use",
+        "Menstrual history",
+        "STI risk assessment",
+        "Medical contraindications"
+      ],
+      "contraceptive_options": [
+        {
+          "method": "Combined oral contraceptives",
+          "efficacy": ">99% with perfect use",
+          "benefits": "Regulates periods, reduces acne",
+          "contraindications": "Smoking >35, thrombosis history"
+        },
+        {
+          "method": "Depot medroxyprogesterone (DMPA)",
+          "efficacy": ">99%",
+          "benefits": "Long-acting, private",
+          "considerations": "Bone density concerns"
+        },
+        {
+          "method": "Implant (etonogestrel)",
+          "efficacy": ">99%",
+          "benefits": "3-year duration, reversible",
+          "side_effects": "Irregular bleeding"
+        },
+        {
+          "method": "Condoms",
+          "efficacy": "85% typical use",
+          "benefits": "STI protection, no prescription needed",
+          "recommendation": "Dual method with hormonal"
+        }
+      ],
+      "immediate_actions": [
+        "Comprehensive sexual health history",
+        "Discuss all contraceptive options",
+        "Address concerns and preferences",
+        "Provide STI screening",
+        "Ensure confidentiality"
+      ],
+      "health_education": [
+        "Proper use of chosen method",
+        "STI prevention strategies",
+        "Emergency contraception availability",
+        "Regular follow-up importance",
+        "Healthy relationship education"
+      ]
+    }
+  ],
+  "ADULTS (18-65 years) - GENERAL CONDITIONS": [
+    {
+      "record_id": "ADULT_GEN_001",
+      "category": "Adult First Visit - Comprehensive Assessment",
+      "age_group": "18-65 years (Adult)",
+      "medical_system": "Primary Care",
+      "severity": "Routine",
+      "chief_complaint": "New patient comprehensive health assessment",
+      "clinical_findings": [
+        "Complete medical history and review of systems",
+        "Family history of chronic diseases",
+        "Social history (smoking, alcohol, drugs)",
+        "Occupational and environmental exposures",
+        "Current medications and allergies",
+        "Vital signs and anthropometric measurements"
+      ],
+      "immediate_actions": [
+        "Complete physical examination",
+        "Risk assessment for chronic diseases",
+        "Screening tests based on age and risk factors",
+        "Immunization status review",
+        "Lifestyle counseling"
+      ],
+      "health_education": [
+        "Healthy lifestyle modifications",
+        "Disease prevention strategies",
+        "Regular screening recommendations",
+        "Stress management techniques",
+        "Importance of regular follow-up care"
+      ]
+    },
+    {
+      "record_id": "ADULT_CVD_001",
+      "category": "Hypertension Management",
+      "age_group": "18-65 years (Adult)",
+      "medical_system": "Cardiovascular",
+      "severity": "Moderate",
+      "chief_complaint": "Elevated blood pressure readings",
+      "clinical_findings": [
+        "Blood pressure ≥140/90 mmHg on multiple occasions",
+        "Target organ damage assessment",
+        "Cardiovascular risk factors evaluation",
+        "Secondary hypertension screening if indicated"
+      ],
+      "medications": [
+        {
+          "name": "ACE Inhibitor (first-line)",
+          "example": "Lisinopril 10-40mg daily",
+          "monitoring": "Renal function, potassium"
+        },
+        {
+          "name": "Thiazide Diuretic",
+          "example": "Hydrochlorothiazide 25mg daily",
+          "monitoring": "Electrolytes, renal function"
+        }
+      ],
+      "health_education": [
+        "DASH diet and sodium restriction",
+        "Regular aerobic exercise",
+        "Weight management",
+        "Smoking cessation",
+        "Medication adherence"
+      ],
+      "follow_up": [
+        "Blood pressure monitoring every 3-6 months",
+        "Annual cardiovascular risk assessment",
+        "Lifestyle modification reinforcement",
+        "Medication adherence review"
+      ]
+    },
+    {
+      "record_id": "ADULT_DM_001",
+      "category": "Type 2 Diabetes Mellitus",
+      "age_group": "18-65 years (Adult)",
+      "medical_system": "Endocrinology",
+      "severity": "Moderate",
+      "chief_complaint": "Elevated blood glucose or diabetes management",
+      "clinical_findings": [
+        "Fasting glucose ≥126 mg/dL (7.0 mmol/L)",
+        "Random glucose ≥200 mg/dL (11.1 mmol/L) with symptoms",
+        "HbA1c ≥6.5% (48 mmol/mol)",
+        "Classic symptoms (polyuria, polydipsia, weight loss)",
+        "Complications assessment (retinopathy, nephropathy, neuropathy)"
+      ],
+      "risk_factors": [
+        "Age ≥45 years",
+        "BMI ≥25 kg/m²",
+        "Family history of diabetes",
+        "Physical inactivity",
+        "Hypertension",
+        "Previous gestational diabetes",
+        "Polycystic ovary syndrome"
+      ],
+      "immediate_actions": [
+        "Confirm diagnosis with repeat testing",
+        "Assess for complications",
+        "Initiate lifestyle modifications",
+        "Consider medication therapy",
+        "Provide diabetes education"
+      ],
+      "treatment_targets": [
+        {
+          "parameter": "HbA1c",
+          "target": "<7% (53 mmol/mol) for most adults",
+          "individualized": "May be <6.5% or <8% based on patient factors"
+        },
+        {
+          "parameter": "Blood pressure",
+          "target": "<140/90 mmHg (or <130/80 if high CV risk)"
+        },
+        {
+          "parameter": "LDL cholesterol",
+          "target": "<100 mg/dL (<70 if high CV risk)"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Metformin (first-line)",
+          "starting_dose": "500mg twice daily with meals",
+          "maximum_dose": "2000mg daily",
+          "contraindications": "eGFR <30, severe heart failure",
+          "monitoring": "Renal function, B12 levels"
+        },
+        {
+          "name": "Sulfonylureas (second-line)",
+          "example": "Glimepiride 1-4mg daily",
+          "cautions": "Hypoglycemia risk, weight gain",
+          "monitoring": "Blood glucose, weight"
+        },
+        {
+          "name": "Insulin (if needed)",
+          "indication": "HbA1c >9%, symptoms, contraindications to oral agents",
+          "starting": "Basal insulin 10 units or 0.1-0.2 units/kg"
+        }
+      ],
+      "complications_screening": [
+        "Annual dilated eye exam",
+        "Annual urine microalbumin",
+        "Annual foot examination",
+        "Lipid profile annually",
+        "Blood pressure at each visit"
+      ],
+      "health_education": [
+        "Diabetes self-management education",
+        "Blood glucose monitoring",
+        "Hypoglycemia recognition and treatment",
+        "Foot care and inspection",
+        "Sick day management",
+        "Importance of medication adherence"
+      ]
+    },
+    {
+      "record_id": "ADULT_RESP_001",
+      "category": "Chronic Obstructive Pulmonary Disease (COPD)",
+      "age_group": "18-65 years (Adult)",
+      "medical_system": "Pulmonology",
+      "severity": "Moderate to Severe",
+      "chief_complaint": "Chronic cough, shortness of breath, and sputum production",
+      "clinical_findings": [
+        "Chronic productive cough >3 months",
+        "Progressive dyspnea on exertion",
+        "History of smoking or biomass exposure",
+        "Reduced exercise tolerance",
+        "Barrel chest and use of accessory muscles",
+        "Prolonged expiratory phase",
+        "Decreased breath sounds with wheeze"
+      ],
+      "risk_factors": [
+        "Cigarette smoking (primary)",
+        "Biomass fuel exposure",
+        "Occupational dust/chemicals",
+        "Alpha-1 antitrypsin deficiency",
+        "Recurrent respiratory infections"
+      ],
+      "staging": [
+        {
+          "stage": "GOLD 1 (Mild)",
+          "fev1": "≥80% predicted",
+          "symptoms": "Minimal"
+        },
+        {
+          "stage": "GOLD 2 (Moderate)",
+          "fev1": "50-79% predicted",
+          "symptoms": "Increasing dyspnea"
+        },
+        {
+          "stage": "GOLD 3 (Severe)",
+          "fev1": "30-49% predicted",
+          "symptoms": "Significant limitation"
+        },
+        {
+          "stage": "GOLD 4 (Very Severe)",
+          "fev1": "<30% predicted",
+          "symptoms": "Severe limitation, respiratory failure"
+        }
+      ],
+      "immediate_actions": [
+        "Confirm diagnosis with spirometry",
+        "Assess symptom severity and exacerbation risk",
+        "Initiate bronchodilator therapy",
+        "Smoking cessation counseling",
+        "Pulmonary rehabilitation referral"
+      ],
+      "medications": [
+        {
+          "name": "Short-acting bronchodilators (SABA/SAMA)",
+          "examples": "Salbutamol, Ipratropium",
+          "indication": "Rescue therapy for all stages",
+          "dosing": "As needed for symptoms"
+        },
+        {
+          "name": "Long-acting bronchodilators (LABA/LAMA)",
+          "examples": "Salmeterol, Tiotropium",
+          "indication": "Regular therapy for moderate-severe COPD",
+          "benefits": "Improved symptoms and lung function"
+        },
+        {
+          "name": "Inhaled corticosteroids (ICS)",
+          "indication": "Frequent exacerbations or asthma overlap",
+          "combination": "Usually combined with LABA",
+          "cautions": "Pneumonia risk, oral thrush"
+        }
+      ],
+      "health_education": [
+        "Smoking cessation (most important)",
+        "Proper inhaler technique",
+        "Recognition of exacerbations",
+        "Importance of vaccination (influenza, pneumococcal)",
+        "Pulmonary rehabilitation benefits",
+        "Energy conservation techniques"
+      ]
+    }
+  ],
+  "MATERNAL HEALTH - PRENATAL CARE": [
+    {
+      "record_id": "MAT_ANTE_001",
+      "category": "Antenatal Care - First Visit",
+      "age_group": "Reproductive Age (15-49 years)",
+      "medical_system": "Obstetrics",
+      "severity": "Routine",
+      "chief_complaint": "First antenatal visit for pregnancy care",
+      "clinical_findings": [
+        "Confirmation of pregnancy (urine/serum hCG)",
+        "Gestational age assessment (LMP, ultrasound)",
+        "Complete medical and obstetric history",
+        "Physical examination including pelvic assessment",
+        "Baseline investigations (CBC, blood group, VDRL, HIV)"
+      ],
+      "immediate_actions": [
+        "Calculate expected date of delivery",
+        "Assess risk factors for complications",
+        "Initiate prenatal vitamins",
+        "Schedule regular antenatal visits",
+        "Provide pregnancy counseling"
+      ],
+      "medications": [
+        {
+          "name": "Folic Acid",
+          "dose": "5mg daily",
+          "duration": "Throughout pregnancy",
+          "indication": "Neural tube defect prevention"
+        },
+        {
+          "name": "Iron supplementation",
+          "dose": "60mg elemental iron daily",
+          "timing": "From 20 weeks gestation",
+          "indication": "Anemia prevention"
+        }
+      ],
+      "health_education": [
+        "Nutrition during pregnancy",
+        "Warning signs to watch for",
+        "Importance of regular antenatal visits",
+        "Safe practices during pregnancy",
+        "Preparation for delivery and breastfeeding"
+      ]
+    },
+    {
+      "record_id": "MAT_EMERG_001",
+      "category": "Preeclampsia",
+      "age_group": "Reproductive Age (15-49 years)",
+      "medical_system": "Obstetric Emergency",
+      "severity": "Severe",
+      "chief_complaint": "High blood pressure and proteinuria in pregnancy",
+      "clinical_findings": [
+        "Blood pressure ≥140/90 mmHg after 20 weeks",
+        "Proteinuria ≥300mg/24 hours",
+        "Severe features: BP ≥160/110, headache, visual changes",
+        "Right upper quadrant pain",
+        "Decreased urine output",
+        "Thrombocytopenia"
+      ],
+      "immediate_actions": [
+        "Assess for severe features",
+        "Administer antihypertensive therapy",
+        "Start magnesium sulfate for seizure prophylaxis",
+        "Monitor fetal well-being",
+        "Plan for delivery"
+      ],
+      "medications": [
+        {
+          "name": "Magnesium Sulfate",
+          "loading_dose": "4-6g IV over 15-20 minutes",
+          "maintenance": "1-2g/hour IV infusion",
+          "indication": "Seizure prophylaxis"
+        },
+        {
+          "name": "Labetalol",
+          "dose": "20mg IV, may repeat",
+          "target": "Systolic BP 140-160 mmHg"
+        }
+      ],
+      "referral_criteria": [
+        "ALL cases require specialist obstetric care",
+        "Immediate referral for severe features",
+        "Delivery planning required"
+      ],
+      "follow_up": [
+        "Regular antenatal visits as scheduled",
+        "Blood pressure monitoring",
+        "Fetal surveillance as indicated",
+        "Delivery planning"
+      ]
+    },
+    {
+      "record_id": "MAT_LABOR_001",
+      "category": "Prolonged Labor",
+      "age_group": "Reproductive Age (15-49 years)",
+      "medical_system": "Obstetrics",
+      "severity": "Moderate to Severe",
+      "chief_complaint": "Labor progress slower than expected",
+      "clinical_findings": [
+        "Cervical dilatation <1cm/hour in active phase",
+        "Descent of fetal head arrested",
+        "Maternal exhaustion",
+        "Fetal heart rate abnormalities",
+        "Prolonged rupture of membranes"
+      ],
+      "causes": [
+        "Cephalopelvic disproportion",
+        "Malposition (occipito-posterior)",
+        "Inefficient uterine contractions",
+        "Cervical dystocia",
+        "Maternal exhaustion"
+      ],
+      "immediate_actions": [
+        "Assess progress using partograph",
+        "Evaluate fetal well-being",
+        "Ensure adequate hydration",
+        "Consider augmentation if appropriate",
+        "Prepare for operative delivery if needed"
+      ],
+      "management": [
+        {
+          "first_stage": "Augmentation with oxytocin if contractions inadequate",
+          "monitoring": "Continuous fetal monitoring"
+        },
+        {
+          "second_stage": "Consider episiotomy, vacuum, or forceps",
+          "time_limits": "3 hours nullipara, 2 hours multipara"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Oxytocin augmentation",
+          "starting_dose": "1-2 mU/min IV",
+          "increase": "1-2 mU/min every 30 minutes",
+          "maximum": "20 mU/min",
+          "monitoring": "Contractions, fetal heart rate"
+        }
+      ],
+      "referral_criteria": [
+        "Failed progress despite adequate contractions",
+        "Fetal distress",
+        "Maternal complications",
+        "Need for operative delivery"
+      ]
+    },
+    {
+      "record_id": "MAT_POST_001",
+      "category": "Postpartum Hemorrhage",
+      "age_group": "Reproductive Age (15-49 years)",
+      "medical_system": "Obstetric Emergency",
+      "severity": "Severe",
+      "chief_complaint": "Excessive bleeding after delivery",
+      "clinical_findings": [
+        "Blood loss >500mL vaginal delivery or >1000mL cesarean",
+        "Signs of hypovolemic shock",
+        "Uterine atony (soft, boggy uterus)",
+        "Visible lacerations",
+        "Retained placental tissue"
+      ],
+      "causes_4ts": [
+        "Tone: Uterine atony (most common)",
+        "Tissue: Retained placenta/membranes",
+        "Trauma: Lacerations, uterine rupture",
+        "Thrombin: Coagulation disorders"
+      ],
+      "immediate_actions": [
+        "Call for help immediately",
+        "Establish IV access (large bore)",
+        "Uterine massage and bimanual compression",
+        "Administer uterotonic medications",
+        "Identify and treat underlying cause"
+      ],
+      "medications": [
+        {
+          "name": "Oxytocin",
+          "dose": "10-40 units in 1L normal saline IV",
+          "rate": "125-200 mL/hour",
+          "first_line": "Most commonly used"
+        },
+        {
+          "name": "Ergometrine",
+          "dose": "0.2mg IM (may repeat in 15 minutes)",
+          "contraindications": "Hypertension, heart disease",
+          "caution": "Do not give IV"
+        },
+        {
+          "name": "Misoprostol",
+          "dose": "800-1000 mcg rectally",
+          "indication": "When IV access difficult",
+          "side_effects": "Fever, shivering"
+        }
+      ],
+      "surgical_interventions": [
+        "Uterine balloon tamponade",
+        "B-Lynch compression suture",
+        "Uterine artery ligation",
+        "Hysterectomy (last resort)"
+      ],
+      "referral_criteria": [
+        "ALL cases of postpartum hemorrhage",
+        "Immediate transfer to operating theater",
+        "Blood transfusion may be needed"
+      ]
+    },
+    {
+      "record_id": "MAT_POST_002",
+      "category": "Postpartum Care and Breastfeeding",
+      "age_group": "Reproductive Age (15-49 years)",
+      "medical_system": "Postpartum Care",
+      "severity": "Routine",
+      "chief_complaint": "Routine postpartum care and breastfeeding support",
+      "clinical_findings": [
+        "Normal involution of uterus",
+        "Lochia progression (rubra → serosa → alba)",
+        "Breast engorgement or feeding difficulties",
+        "Perineal healing",
+        "Emotional adjustment"
+      ],
+      "immediate_actions": [
+        "Assess maternal vital signs and recovery",
+        "Evaluate uterine involution",
+        "Support breastfeeding initiation",
+        "Provide contraception counseling",
+        "Screen for postpartum depression"
+      ],
+      "breastfeeding_support": [
+        "Initiate within first hour after birth",
+        "Ensure proper latch and positioning",
+        "Exclusive breastfeeding for 6 months",
+        "Address common problems (sore nipples, engorgement)",
+        "Provide lactation support"
+      ],
+      "common_problems": [
+        {
+          "problem": "Breast engorgement",
+          "management": "Frequent feeding, warm compresses, proper support"
+        },
+        {
+          "problem": "Sore/cracked nipples",
+          "management": "Check latch, air dry, lanolin cream"
+        },
+        {
+          "problem": "Mastitis",
+          "management": "Continue breastfeeding, antibiotics if needed"
+        }
+      ],
+      "health_education": [
+        "Normal postpartum changes",
+        "Warning signs to watch for",
+        "Breastfeeding techniques",
+        "Contraception options",
+        "Importance of follow-up care",
+        "Newborn care basics"
+      ],
+      "follow_up": [
+        "Visit at 1 week postpartum",
+        "Visit at 6 weeks postpartum",
+        "Family planning counseling",
+        "Mental health screening"
+      ]
+    }
+  ],
+  "ELDERLY (65+ years) - GERIATRIC CONDITIONS": [
+    {
+      "record_id": "ELDER_001",
+      "category": "Comprehensive Geriatric Assessment",
+      "age_group": "65+ years (Elderly)",
+      "medical_system": "Geriatrics",
+      "severity": "Routine",
+      "chief_complaint": "Routine health assessment for elderly patient",
+      "clinical_findings": [
+        "Functional status assessment (ADLs, IADLs)",
+        "Cognitive assessment (Mini-Mental State Exam)",
+        "Fall risk evaluation",
+        "Medication review and polypharmacy assessment",
+        "Social support and living situation",
+        "Nutritional status evaluation"
+      ],
+      "immediate_actions": [
+        "Complete geriatric assessment",
+        "Screen for common geriatric syndromes",
+        "Review and optimize medications",
+        "Assess safety at home",
+        "Plan preventive care"
+      ],
+      "health_education": [
+        "Fall prevention strategies",
+        "Medication management",
+        "Nutrition for healthy aging",
+        "Importance of social engagement",
+        "Regular exercise appropriate for age",
+        "When to seek medical care"
+      ]
+    },
+    {
+      "record_id": "ELDER_CVD_001",
+      "category": "Heart Failure in Elderly",
+      "age_group": "65+ years (Elderly)",
+      "medical_system": "Cardiovascular",
+      "severity": "Moderate to Severe",
+      "chief_complaint": "Shortness of breath, fatigue, and leg swelling",
+      "clinical_findings": [
+        "Dyspnea on exertion or at rest",
+        "Bilateral lower extremity edema",
+        "Elevated jugular venous pressure",
+        "Pulmonary rales on examination",
+        "S3 gallop on cardiac auscultation",
+        "Reduced exercise tolerance"
+      ],
+      "differential_diagnosis": [
+        "Heart failure with reduced ejection fraction",
+        "Heart failure with preserved ejection fraction",
+        "Acute decompensated heart failure",
+        "Pulmonary edema",
+        "Chronic kidney disease"
+      ],
+      "medications": [
+        {
+          "name": "ACE Inhibitor",
+          "example": "Lisinopril 2.5-10mg daily",
+          "monitoring": "Renal function, potassium",
+          "titration": "Increase gradually as tolerated"
+        },
+        {
+          "name": "Diuretic",
+          "example": "Furosemide 20-40mg daily",
+          "monitoring": "Electrolytes, renal function",
+          "adjustment": "Based on fluid status"
+        }
+      ],
+      "health_education": [
+        "Daily weight monitoring",
+        "Fluid and sodium restriction",
+        "Medication adherence",
+        "Recognition of worsening symptoms",
+        "When to seek immediate care"
+      ],
+      "follow_up": [
+        "Regular monitoring of heart failure status",
+        "Medication adherence assessment",
+        "Functional status evaluation",
+        "Quality of life assessment"
+      ]
+    },
+    {
+      "record_id": "ELDER_NEURO_001",
+      "category": "Dementia Assessment and Management",
+      "age_group": "65+ years (Elderly)",
+      "medical_system": "Neurology/Geriatrics",
+      "severity": "Moderate to Severe",
+      "chief_complaint": "Memory problems, confusion, or cognitive decline",
+      "clinical_findings": [
+        "Progressive memory loss affecting daily activities",
+        "Difficulty with complex tasks",
+        "Language problems or word-finding difficulty",
+        "Disorientation to time, place, or person",
+        "Changes in judgment or reasoning",
+        "Mood or personality changes",
+        "Withdrawal from social activities"
+      ],
+      "cognitive_assessment": [
+        "Mini-Mental State Examination (MMSE)",
+        "Montreal Cognitive Assessment (MoCA)",
+        "Clock drawing test",
+        "Activities of daily living assessment"
+      ],
+      "differential_diagnosis": [
+        "Alzheimer's disease (most common)",
+        "Vascular dementia",
+        "Lewy body dementia",
+        "Frontotemporal dementia",
+        "Normal pressure hydrocephalus",
+        "Depression (pseudodementia)",
+        "Medication-induced cognitive impairment"
+      ],
+      "immediate_actions": [
+        "Complete cognitive assessment",
+        "Review medications for cognitive effects",
+        "Assess safety at home",
+        "Evaluate caregiver support",
+        "Consider reversible causes"
+      ],
+      "investigations": [
+        "Complete blood count, B12, folate",
+        "Thyroid function tests",
+        "Syphilis serology",
+        "Brain imaging (CT or MRI)",
+        "Consider lumbar puncture if indicated"
+      ],
+      "medications": [
+        {
+          "name": "Donepezil (Alzheimer's)",
+          "starting_dose": "5mg daily",
+          "target_dose": "10mg daily after 4-6 weeks",
+          "benefits": "May slow cognitive decline",
+          "side_effects": "Nausea, diarrhea, insomnia"
+        },
+        {
+          "name": "Memantine (moderate-severe)",
+          "starting_dose": "5mg daily",
+          "target_dose": "20mg daily",
+          "indication": "Moderate to severe Alzheimer's",
+          "combination": "Can be used with cholinesterase inhibitors"
+        }
+      ],
+      "non_pharmacological": [
+        "Cognitive stimulation activities",
+        "Regular physical exercise",
+        "Social engagement",
+        "Structured daily routines",
+        "Environmental modifications for safety"
+      ],
+      "caregiver_support": [
+        "Education about dementia progression",
+        "Respite care services",
+        "Support groups",
+        "Legal and financial planning",
+        "End-of-life care discussions"
+      ]
+    },
+    {
+      "record_id": "ELDER_BONE_001",
+      "category": "Osteoporosis and Falls Prevention",
+      "age_group": "65+ years (Elderly)",
+      "medical_system": "Geriatrics/Orthopedics",
+      "severity": "Moderate",
+      "chief_complaint": "Bone health concerns or history of falls",
+      "clinical_findings": [
+        "History of fragility fractures",
+        "Loss of height >4cm",
+        "Kyphosis or stooped posture",
+        "Chronic back pain",
+        "Risk factors for osteoporosis"
+      ],
+      "risk_factors": [
+        "Age >65 years",
+        "Female gender, postmenopausal",
+        "Low body weight (<127 lbs)",
+        "Family history of hip fracture",
+        "Smoking or excessive alcohol",
+        "Corticosteroid use",
+        "Sedentary lifestyle"
+      ],
+      "fall_risk_assessment": [
+        "History of falls in past year",
+        "Fear of falling",
+        "Gait and balance problems",
+        "Visual impairment",
+        "Cognitive impairment",
+        "Polypharmacy",
+        "Environmental hazards"
+      ],
+      "immediate_actions": [
+        "Assess fracture risk (FRAX calculator)",
+        "Evaluate fall risk factors",
+        "Review medications",
+        "Assess home safety",
+        "Consider bone density testing"
+      ],
+      "investigations": [
+        "DEXA scan for bone mineral density",
+        "Vitamin D level",
+        "Calcium and phosphate",
+        "Complete blood count",
+        "Thyroid function if indicated"
+      ],
+      "medications": [
+        {
+          "name": "Calcium supplementation",
+          "dose": "1200mg daily (dietary + supplements)",
+          "timing": "Divided doses with meals",
+          "monitoring": "Kidney function"
+        },
+        {
+          "name": "Vitamin D",
+          "dose": "800-1000 IU daily",
+          "target_level": "30-50 ng/mL (75-125 nmol/L)",
+          "monitoring": "Annual vitamin D level"
+        },
+        {
+          "name": "Bisphosphonates (if indicated)",
+          "example": "Alendronate 70mg weekly",
+          "indication": "T-score ≤-2.5 or high fracture risk",
+          "precautions": "Take on empty stomach, remain upright"
+        }
+      ],
+      "fall_prevention": [
+        "Exercise programs (balance, strength)",
+        "Home safety modifications",
+        "Vision correction",
+        "Medication review and optimization",
+        "Assistive devices if needed"
+      ],
+      "health_education": [
+        "Importance of calcium and vitamin D",
+        "Weight-bearing exercise benefits",
+        "Fall prevention strategies",
+        "Medication adherence",
+        "When to seek medical care"
+      ]
+    },
+    {
+      "record_id": "ELDER_POLY_001",
+      "category": "Polypharmacy Management",
+      "age_group": "65+ years (Elderly)",
+      "medical_system": "Geriatrics/Clinical Pharmacy",
+      "severity": "Moderate",
+      "chief_complaint": "Multiple medications or medication-related problems",
+      "clinical_findings": [
+        "Taking ≥5 medications regularly",
+        "Medication-related adverse events",
+        "Drug-drug interactions",
+        "Inappropriate medications for elderly",
+        "Medication non-adherence",
+        "Cognitive impairment affecting medication management"
+      ],
+      "immediate_actions": [
+        "Complete medication reconciliation",
+        "Review indication for each medication",
+        "Assess for drug interactions",
+        "Evaluate for inappropriate medications",
+        "Simplify regimen if possible"
+      ],
+      "beers_criteria_examples": [
+        "Anticholinergics (increased fall risk)",
+        "Benzodiazepines (cognitive impairment)",
+        "NSAIDs (GI bleeding, kidney injury)",
+        "Proton pump inhibitors long-term",
+        "Sliding scale insulin"
+      ],
+      "medication_review_process": [
+        "Indication: Is each medication still needed?",
+        "Effectiveness: Is it working?",
+        "Safety: Any adverse effects or interactions?",
+        "Adherence: Can patient take as prescribed?",
+        "Cost: Is it affordable?"
+      ],
+      "deprescribing_principles": [
+        "Start with medications causing harm",
+        "Consider patient preferences and goals",
+        "Taper gradually when appropriate",
+        "Monitor for withdrawal effects",
+        "Involve patient and family in decisions"
+      ],
+      "health_education": [
+        "Importance of medication review",
+        "Proper medication storage",
+        "Use of pill organizers",
+        "When to contact healthcare provider",
+        "Bringing all medications to appointments"
+      ]
+    }
+  ],
+  "EMERGENCY AND CRITICAL CARE": [
+    {
+      "record_id": "EMERG_TRAUMA_001",
+      "category": "Major Trauma Assessment",
+      "age_group": "All ages",
+      "medical_system": "Emergency Medicine",
+      "severity": "Critical",
+      "chief_complaint": "Major traumatic injury",
+      "clinical_findings": [
+        "Mechanism of injury (high energy)",
+        "Multiple system involvement",
+        "Altered level of consciousness",
+        "Hemodynamic instability",
+        "Obvious deformities or wounds"
+      ],
+      "primary_survey_abcde": [
+        "A: Airway with C-spine control",
+        "B: Breathing and ventilation",
+        "C: Circulation with hemorrhage control",
+        "D: Disability (neurological assessment)",
+        "E: Exposure and environmental control"
+      ],
+      "immediate_actions": [
+        "Ensure scene safety",
+        "Primary survey (ABCDE)",
+        "Establish IV access",
+        "Control external bleeding",
+        "Immobilize spine",
+        "Prepare for immediate transfer"
+      ],
+      "referral_criteria": [
+        "ALL major trauma cases",
+        "Immediate transfer to trauma center",
+        "Activate trauma team",
+        "Consider helicopter transport if available"
+      ]
+    },
+    {
+      "record_id": "EMERG_SHOCK_001",
+      "category": "Shock Recognition and Management",
+      "age_group": "All ages",
+      "medical_system": "Emergency Medicine",
+      "severity": "Critical",
+      "chief_complaint": "Signs of circulatory failure",
+      "clinical_findings": [
+        "Hypotension (systolic <90 mmHg)",
+        "Tachycardia",
+        "Altered mental status",
+        "Cool, clammy skin",
+        "Decreased urine output",
+        "Weak pulse"
+      ],
+      "types_of_shock": [
+        "Hypovolemic (blood loss, dehydration)",
+        "Cardiogenic (heart failure, MI)",
+        "Distributive (sepsis, anaphylaxis)",
+        "Obstructive (tension pneumothorax, PE)"
+      ],
+      "immediate_actions": [
+        "Assess airway, breathing, circulation",
+        "Establish large-bore IV access",
+        "Administer IV fluids",
+        "Identify and treat underlying cause",
+        "Monitor vital signs continuously"
+      ],
+      "fluid_resuscitation": [
+        "Crystalloids (normal saline, lactated Ringer's)",
+        "Initial bolus: 20 mL/kg (pediatric), 1-2L (adult)",
+        "Reassess after each bolus",
+        "Consider blood products if hemorrhagic shock"
+      ],
+      "referral_criteria": [
+        "ALL cases of shock",
+        "Immediate intensive care needed",
+        "May require vasopressor support"
+      ]
+    }
+  ],
+  "QUALITY INDICATORS AND FOLLOW-UP PROTOCOLS": {
+    "neonatal_care_indicators": [
+      {
+        "indicator": "Exclusive breastfeeding rate at discharge",
+        "target": ">80%",
+        "measurement": "Percentage of newborns exclusively breastfeeding at hospital discharge"
+      },
+      {
+        "indicator": "Vitamin K administration rate",
+        "target": "100%",
+        "measurement": "Percentage of newborns receiving vitamin K within 6 hours"
+      },
+      {
+        "indicator": "Early neonatal mortality rate",
+        "target": "<10 per 1000 live births",
+        "measurement": "Deaths in first 7 days per 1000 live births"
+      }
+    ],
+    "pediatric_care_indicators": [
+      {
+        "indicator": "Pneumonia case fatality rate",
+        "target": "<5%",
+        "measurement": "Deaths from pneumonia per 100 cases treated"
+      },
+      {
+        "indicator": "Diarrhea treatment success rate",
+        "target": ">95%",
+        "measurement": "Percentage of diarrhea cases successfully treated with ORT"
+      },
+      {
+        "indicator": "Malnutrition recovery rate",
+        "target": ">75%",
+        "measurement": "Percentage of SAM cases achieving nutritional recovery"
+      },
+      {
+        "indicator": "Immunization coverage",
+        "target": ">90%",
+        "measurement": "Percentage of children fully immunized by age 2"
+      }
+    ],
+    "adolescent_care_indicators": [
+      {
+        "indicator": "Depression screening rate",
+        "target": ">80%",
+        "measurement": "Percentage of adolescents screened for depression annually"
+      },
+      {
+        "indicator": "Contraceptive counseling rate",
+        "target": "100%",
+        "measurement": "Percentage of sexually active adolescents receiving contraceptive counseling"
+      }
+    ],
+    "adult_care_indicators": [
+      {
+        "indicator": "Hypertension control rate",
+        "target": ">70%",
+        "measurement": "Percentage of hypertensive patients with BP <140/90"
+      },
+      {
+        "indicator": "Diabetes HbA1c control",
+        "target": ">60%",
+        "measurement": "Percentage of diabetic patients with HbA1c <7%"
+      },
+      {
+        "indicator": "COPD exacerbation rate",
+        "target": "<2 per patient per year",
+        "measurement": "Average number of exacerbations per COPD patient annually"
+      }
+    ],
+    "maternal_care_indicators": [
+      {
+        "indicator": "Antenatal care coverage",
+        "target": ">90%",
+        "measurement": "Percentage of pregnant women with ≥4 ANC visits"
+      },
+      {
+        "indicator": "Institutional delivery rate",
+        "target": ">80%",
+        "measurement": "Percentage of deliveries in health facilities"
+      },
+      {
+        "indicator": "Maternal mortality ratio",
+        "target": "<100 per 100,000 live births",
+        "measurement": "Maternal deaths per 100,000 live births"
+      },
+      {
+        "indicator": "Postpartum hemorrhage case fatality",
+        "target": "<1%",
+        "measurement": "Deaths from PPH per 100 PPH cases"
+      }
+    ],
+    "geriatric_care_indicators": [
+      {
+        "indicator": "Fall prevention program participation",
+        "target": ">60%",
+        "measurement": "Percentage of high-risk elderly in fall prevention programs"
+      },
+      {
+        "indicator": "Medication review completion",
+        "target": "100%",
+        "measurement": "Percentage of elderly patients with annual medication review"
+      },
+      {
+        "indicator": "Cognitive assessment rate",
+        "target": ">80%",
+        "measurement": "Percentage of elderly patients with annual cognitive screening"
+      }
+    ],
+    "emergency_care_indicators": [
+      {
+        "indicator": "Trauma response time",
+        "target": "<15 minutes",
+        "measurement": "Time from arrival to initial assessment"
+      },
+      {
+        "indicator": "Shock recognition rate",
+        "target": ">90%",
+        "measurement": "Percentage of shock cases identified within 30 minutes"
+      }
+    ]
+  },
+  "STANDARD_FOLLOW_UP_SCHEDULES": {
+    "neonatal_follow_up": [
+      {
+        "timing": "24-48 hours after discharge",
+        "focus": "Feeding, jaundice, weight check"
+      },
+      {
+        "timing": "1 week",
+        "focus": "Growth, development, immunizations"
+      },
+      {
+        "timing": "1 month",
+        "focus": "Growth assessment, developmental screening"
+      }
+    ],
+    "pediatric_follow_up": [
+      {
+        "condition": "Pneumonia",
+        "timing": "48 hours, 1 week, 2 weeks",
+        "focus": "Clinical improvement, antibiotic completion"
+      },
+      {
+        "condition": "Malnutrition",
+        "timing": "Weekly until recovery",
+        "focus": "Weight gain, MUAC measurement, complications"
+      },
+      {
+        "condition": "Diarrhea",
+        "timing": "48 hours if not improving",
+        "focus": "Hydration status, ongoing losses"
+      }
+    ],
+    "adolescent_follow_up": [
+      {
+        "condition": "Depression",
+        "timing": "Weekly for 4 weeks, then monthly",
+        "focus": "Symptom improvement, medication adherence, safety"
+      },
+      {
+        "condition": "Contraception",
+        "timing": "3 months, then annually",
+        "focus": "Side effects, satisfaction, STI screening"
+      }
+    ],
+    "adult_follow_up": [
+      {
+        "condition": "Hypertension",
+        "timing": "Monthly until controlled, then every 3-6 months",
+        "focus": "Blood pressure, medication adherence, lifestyle"
+      },
+      {
+        "condition": "Diabetes",
+        "timing": "Every 3 months",
+        "focus": "HbA1c, complications screening, self-management"
+      },
+      {
+        "condition": "COPD",
+        "timing": "Every 3-6 months",
+        "focus": "Symptoms, exacerbations, inhaler technique"
+      }
+    ],
+    "maternal_follow_up": [
+      {
+        "timing": "1 week postpartum",
+        "focus": "Breastfeeding, healing, mood assessment"
+      },
+      {
+        "timing": "6 weeks postpartum",
+        "focus": "Complete recovery, contraception, mental health"
+      }
+    ],
+    "geriatric_follow_up": [
+      {
+        "condition": "Dementia",
+        "timing": "Every 3-6 months",
+        "focus": "Cognitive status, caregiver support, safety"
+      },
+      {
+        "condition": "Polypharmacy",
+        "timing": "Every 6 months",
+        "focus": "Medication review, adverse effects, adherence"
+      }
+    ]
+  }
+}
