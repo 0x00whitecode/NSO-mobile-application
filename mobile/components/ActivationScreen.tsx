@@ -101,8 +101,27 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
     setIsLoading(true);
 
     try {
-      // Use offline activation with simple 12-character keys
-      const response = await offlineActivationService.activateDeviceOffline(normalizedKey);
+      let response;
+
+      if (isOnline) {
+        // Try online activation first when internet is available
+        try {
+          const apiService = (await import('../services/apiService')).apiService;
+          response = await apiService.activateDevice(normalizedKey);
+
+          if (response.success && response.data) {
+            // Keep loading visible while transitioning to next screen
+            onActivationComplete(normalizedKey);
+            return;
+          }
+        } catch (onlineError) {
+          console.log('Online activation failed, falling back to offline:', onlineError);
+          // Fall through to offline activation
+        }
+      }
+
+      // Use offline activation as fallback or when no internet
+      response = await offlineActivationService.activateDeviceOffline(normalizedKey);
 
       if (response.success && response.data) {
         // Keep loading visible while transitioning to next screen
@@ -132,6 +151,12 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
             break;
           case 'NETWORK_ERROR':
             errorMessage = 'Network connection error. Please check your internet connection and try again.';
+            break;
+          case 'INVALID_ACTIVATION_KEY':
+            errorMessage = 'Invalid activation key. Please check your key and try again.';
+            break;
+          case 'ACTIVATION_KEY_NOT_VALID':
+            errorMessage = 'This activation key is not valid or has been used. Please contact your administrator.';
             break;
         }
 
