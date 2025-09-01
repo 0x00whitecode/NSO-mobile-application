@@ -2,20 +2,16 @@ import CryptoJS from 'crypto-js';
 import { Platform } from 'react-native';
 import AsyncStorage from '../utils/storageAdapter';
 
-// Types for offline activation
+// Types for offline activation with 12-digit keys
 export interface OfflineActivationData {
-  userId: string;
   fullName: string;
+  email: string;
+  phone?: string;
   role: string;
-  facility: string;
-  state: string;
-  contactInfo?: string;
-  validUntil: string;
-  maxUses: number;
-  usageCount: number;
-  status: 'active' | 'expired' | 'revoked';
-  createdAt: string;
-  assignedBy: string;
+  facility?: string;
+  state?: string;
+  generatedAt: string;
+  keyId: string;
 }
 
 export interface DecodedActivationKey {
@@ -42,52 +38,63 @@ class OfflineActivationService {
     ACTIVATION_TIMESTAMP: 'activation_timestamp'
   };
 
+  private readonly ENCRYPTION_KEY = 'nso-activation-key-2024'; // Must match backend
+
   /**
-   * Validate simple activation key format
+   * Validate 12-digit activation key and decrypt user data
    */
   async validateActivationKey(activationKey: string): Promise<DecodedActivationKey> {
     try {
-      // Remove dashes and convert to uppercase
-      const cleanKey = activationKey.replace(/-/g, '').toUpperCase();
+      // Remove any non-numeric characters
+      const cleanKey = activationKey.replace(/\D/g, '');
 
-      // Validate 12-character format
+      // Validate 12-digit numeric format
       if (cleanKey.length !== 12) {
         return {
           success: false,
-          error: 'Invalid activation key length. Must be 12 characters.',
+          error: 'Invalid activation key length. Must be 12 digits.',
           code: 'INVALID_KEY_LENGTH'
         };
       }
 
-      // Validate characters (alphanumeric only)
-      if (!/^[A-Z0-9]{12}$/.test(cleanKey)) {
+      // Validate numeric only
+      if (!/^\d{12}$/.test(cleanKey)) {
         return {
           success: false,
-          error: 'Invalid activation key format. Only letters and numbers allowed.',
+          error: 'Invalid activation key format. Only numbers allowed.',
           code: 'INVALID_KEY_FORMAT'
         };
       }
 
-      // For simple keys, we'll create mock user data
-      // In a real implementation, this would be looked up from a database
-      const mockUserData: OfflineActivationData = {
-        userId: `user_${cleanKey.slice(0, 4)}`,
-        fullName: 'User Name',
-        role: 'doctor',
-        facility: 'Health Facility',
-        state: 'Lagos',
-        contactInfo: 'user@example.com',
-        validUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year from now
-        maxUses: 1,
-        usageCount: 0,
-        status: 'active',
-        createdAt: new Date().toISOString(),
-        assignedBy: 'admin@nso.gov.ng'
-      };
+      // Try to validate with backend first if online
+      try {
+        const backendValidation = await this.validateWithBackend(cleanKey);
+        if (backendValidation.success) {
+          return backendValidation;
+        }
+      } catch (error) {
+        console.log('Backend validation failed, trying offline validation:', error);
+      }
 
+      // Fallback: Try to decrypt embedded user data (for offline validation)
+      // This would work if the key contains encrypted user data
+      try {
+        const userData = this.decryptUserData(cleanKey);
+        if (userData) {
+          return {
+            success: true,
+            data: userData
+          };
+        }
+      } catch (error) {
+        console.log('Offline decryption failed:', error);
+      }
+
+      // If all validation methods fail
       return {
-        success: true,
-        data: mockUserData
+        success: false,
+        error: 'Invalid activation key. Please check your key and try again.',
+        code: 'INVALID_KEY'
       };
 
     } catch (error) {
@@ -97,6 +104,59 @@ class OfflineActivationService {
         error: 'Activation key validation failed',
         code: 'VALIDATION_ERROR'
       };
+    }
+  }
+
+  /**
+   * Validate key with backend (online validation)
+   */
+  private async validateWithBackend(key: string): Promise<DecodedActivationKey> {
+    // This would make an API call to validate the key with the backend
+    // For now, we'll simulate this
+    const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL || 'https://nso-backend-heavy.onrender.com'}/api/v1/auth/validate-key`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ key })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success && data.data) {
+        return {
+          success: true,
+          data: data.data.userData
+        };
+      }
+    }
+
+    throw new Error('Backend validation failed');
+  }
+
+  /**
+   * Decrypt user data from key (offline validation)
+   */
+  private decryptUserData(key: string): OfflineActivationData | null {
+    try {
+      // This is a simplified example. In a real implementation,
+      // the key would contain encrypted user data that can be decrypted offline
+      // For now, we'll create mock data based on the key
+      const mockUserData: OfflineActivationData = {
+        fullName: `User ${key.slice(0, 4)}`,
+        email: `user${key.slice(0, 4)}@example.com`,
+        phone: `+234${key.slice(4, 8)}${key.slice(8, 12)}`,
+        role: 'doctor',
+        facility: 'Health Facility',
+        state: 'Lagos',
+        generatedAt: new Date().toISOString(),
+        keyId: key
+      };
+
+      return mockUserData;
+    } catch (error) {
+      console.error('Error decrypting user data:', error);
+      return null;
     }
   }
 

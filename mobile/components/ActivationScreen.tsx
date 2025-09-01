@@ -77,24 +77,18 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
     // Clear any previous errors
     setInputError('');
 
-    // Normalize key: strip non-alphanumerics, uppercase, insert dashes every 4
-    const normalizedKey = activationKey
-      .toUpperCase()
-      .replace(/[^A-Z0-9]/g, '')
-      .replace(/(.{4})/g, '$1-')
-      .replace(/-$/, '');
+    // Normalize key: strip non-numeric characters
+    const normalizedKey = activationKey.replace(/\D/g, '');
 
-    // Reflect normalization in the input field
-    if (normalizedKey !== activationKey) {
-      setActivationKey(normalizedKey);
+    // Reflect normalization in the input field (format as XXXX-XXXX-XXXX for display)
+    const displayKey = normalizedKey.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3');
+    if (displayKey !== activationKey && normalizedKey.length === 12) {
+      setActivationKey(displayKey);
     }
 
-
-    // Validate key format - 12 characters in XXXX-XXXX-XXXX format
-    const keyFormat = /^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$/;
-
-    if (!keyFormat.test(normalizedKey)) {
-      setInputError('Invalid activation key format. Please enter a 12-character key in XXXX-XXXX-XXXX format.');
+    // Validate key format - 12 digits
+    if (normalizedKey.length !== 12 || !/^\d{12}$/.test(normalizedKey)) {
+      setInputError('Invalid activation key format. Please enter a 12-digit numeric key.');
       return;
     }
 
@@ -186,11 +180,22 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
       setInputError('');
     }
 
-    const formatted = formatActivationKey(text);
-    // Limit to 14 characters (12 chars + 2 dashes)
-    if (formatted.length <= 14) {
-      setActivationKey(formatted);
+    // Remove non-numeric characters
+    const cleaned = text.replace(/\D/g, '');
+
+    // Limit to 12 digits
+    const limited = cleaned.substring(0, 12);
+
+    // Format as XXXX-XXXX-XXXX for display
+    let formatted = limited;
+    if (limited.length > 4) {
+      formatted = limited.substring(0, 4) + '-' + limited.substring(4);
     }
+    if (limited.length > 8) {
+      formatted = limited.substring(0, 4) + '-' + limited.substring(4, 8) + '-' + limited.substring(8);
+    }
+
+    setActivationKey(formatted);
   };
 
   const handleInputFocus = () => {
@@ -200,10 +205,10 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
   const handleInputBlur = () => {
     // Validate on blur
     if (activationKey && activationKey.length > 0) {
-      const keyFormat = /^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$/;
+      const cleanKey = activationKey.replace(/\D/g, '');
 
-      if (!keyFormat.test(activationKey)) {
-        setInputError('Invalid activation key format. Use XXXX-XXXX-XXXX format.');
+      if (cleanKey.length !== 12) {
+        setInputError('Invalid activation key format. Please enter a 12-digit numeric key.');
       }
     }
   };
@@ -268,8 +273,8 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
                   onChangeText={handleKeyChange}
                   onFocus={handleInputFocus}
                   onBlur={handleInputBlur}
-                  placeholder="XXXX-XXXX-XXXX"
-                  autoCapitalize="characters"
+                  placeholder="123456789012"
+                  keyboardType="numeric"
                   autoCorrect={false}
                   maxLength={14}
                   editable={!isLoading}
