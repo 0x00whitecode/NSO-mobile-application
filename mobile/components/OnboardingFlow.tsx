@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DeviceInfo, UserProfile, UserStorage } from '../utils/userStorage';
 import ActivationScreen from './ActivationScreen';
 import CategoryMenuScreen from './CategoryMenuScreen';
@@ -38,6 +38,32 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('onboarding');
   const [activationKey, setActivationKey] = useState<string>('');
   const [userData, setUserData] = useState<UserData | null>(null);
+
+  // On mount, decide whether to skip activation/profile if already completed
+  useEffect(() => {
+    (async () => {
+      try {
+        const device = await UserStorage.getDeviceInfo();
+        const profile = await UserStorage.getUserProfile();
+
+        if (device?.isActivated) {
+          if (profile) {
+            await UserStorage.setOnboardingComplete();
+            onComplete();
+            return;
+          }
+          // Device activated but no profile yet: go to registration
+          setCurrentStep('registration');
+          return;
+        }
+        // Not activated yet: proceed to activation step
+        setCurrentStep('activation');
+      } catch (e) {
+        // Fallback to activation on any error
+        setCurrentStep('activation');
+      }
+    })();
+  }, []);
 
   const handleOnboardingComplete = () => {
     setCurrentStep('activation');
@@ -81,6 +107,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       };
 
       await UserStorage.saveUserProfile(userProfile);
+      await UserStorage.setOnboardingComplete();
 
       // Submit profile to backend
       try {

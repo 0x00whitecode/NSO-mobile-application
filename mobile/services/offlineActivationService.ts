@@ -10,6 +10,11 @@ export interface OfflineActivationData {
   role: string;
   facility?: string;
   state?: string;
+  contactInfo?: string;
+  status: 'active' | 'revoked' | 'expired' | 'used';
+  validUntil: string; // ISO date
+  maxUses: number;
+  usageCount: number;
   generatedAt: string;
   keyId: string;
 }
@@ -30,7 +35,7 @@ export interface DeviceInfo {
 }
 
 class OfflineActivationService {
-  private readonly ENCRYPTION_KEY = 'nso-offline-key-2024'; // This should be stored securely
+
   private readonly STORAGE_KEYS = {
     ACTIVATION_DATA: 'offline_activation_data',
     DEVICE_ID: 'device_id',
@@ -66,18 +71,10 @@ class OfflineActivationService {
         };
       }
 
-      // Try to validate with backend first if online
-      try {
-        const backendValidation = await this.validateWithBackend(cleanKey);
-        if (backendValidation.success) {
-          return backendValidation;
-        }
-      } catch (error) {
-        console.log('Backend validation failed, trying offline validation:', error);
-      }
+      // Offline-only validation: do not call backend
 
-      // Fallback: Try to decrypt embedded user data (for offline validation)
-      // This would work if the key contains encrypted user data
+      // Try to decrypt embedded user data (offline validation)
+      // This will use the key to derive mock user data for now
       try {
         const userData = this.decryptUserData(cleanKey);
         if (userData) {
@@ -110,28 +107,9 @@ class OfflineActivationService {
   /**
    * Validate key with backend (online validation)
    */
+  // Backend validation removed for offline-only mode
   private async validateWithBackend(key: string): Promise<DecodedActivationKey> {
-    // This would make an API call to validate the key with the backend
-    // For now, we'll simulate this
-    const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL || 'https://nso-backend-heavy.onrender.com'}/api/v1/auth/validate-key`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ key })
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success && data.data) {
-        return {
-          success: true,
-          data: data.data.userData
-        };
-      }
-    }
-
-    throw new Error('Backend validation failed');
+    return { success: false, error: 'Backend validation disabled', code: 'OFFLINE_ONLY' };
   }
 
   /**
@@ -142,6 +120,9 @@ class OfflineActivationService {
       // This is a simplified example. In a real implementation,
       // the key would contain encrypted user data that can be decrypted offline
       // For now, we'll create mock data based on the key
+      const expires = new Date();
+      expires.setDate(expires.getDate() + 30);
+
       const mockUserData: OfflineActivationData = {
         fullName: `User ${key.slice(0, 4)}`,
         email: `user${key.slice(0, 4)}@example.com`,
@@ -149,6 +130,11 @@ class OfflineActivationService {
         role: 'doctor',
         facility: 'Health Facility',
         state: 'Lagos',
+        contactInfo: '',
+        status: 'active',
+        validUntil: expires.toISOString(),
+        maxUses: 1,
+        usageCount: 0,
         generatedAt: new Date().toISOString(),
         keyId: key
       };
@@ -373,20 +359,22 @@ class OfflineActivationService {
    * Get device information
    */
   private async getDeviceInfo(): Promise<DeviceInfo> {
-    const deviceId = await AsyncStorage.getItem(this.STORAGE_KEYS.DEVICE_ID) || 
-                    `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const existingId = await AsyncStorage.getItem(this.STORAGE_KEYS.DEVICE_ID);
+    const deviceId = existingId || `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    // Store device ID if not exists
-    if (!(await AsyncStorage.getItem(this.STORAGE_KEYS.DEVICE_ID))) {
+    if (!existingId) {
       await AsyncStorage.setItem(this.STORAGE_KEYS.DEVICE_ID, deviceId);
     }
+
+    const versionAny: any = (Platform as any)?.Version;
+    const osVersion = versionAny != null ? String(versionAny) : 'unknown';
 
     return {
       deviceId,
       platform: Platform.OS,
-      osVersion: Platform.Version.toString(),
-      appVersion: '1.0.0', // This should come from app config
-      deviceModel: Platform.OS === 'ios' ? 'iPhone' : 'Android Device'
+      osVersion,
+      appVersion: '1.0.0', // TODO: read from app config/build
+      deviceModel: Platform.OS === 'ios' ? 'iPhone' : (Platform.OS === 'android' ? 'Android Device' : 'Web')
     };
   }
 }

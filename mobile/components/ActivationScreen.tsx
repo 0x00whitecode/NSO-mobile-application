@@ -97,24 +97,10 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
     try {
       let response;
 
-      if (isOnline) {
-        // Try online activation first when internet is available
-        try {
-          const apiService = (await import('../services/apiService')).apiService;
-          response = await apiService.activateDevice(normalizedKey);
+      // Offline-only activation: skip backend calls
+      // If you want to enable online activation later, restore the block that calls apiService.activateDevice
 
-          if (response.success && response.data) {
-            // Keep loading visible while transitioning to next screen
-            onActivationComplete(normalizedKey);
-            return;
-          }
-        } catch (onlineError) {
-          console.log('Online activation failed, falling back to offline:', onlineError);
-          // Fall through to offline activation
-        }
-      }
-
-      // Use offline activation as fallback or when no internet
+      // Use offline activation
       response = await offlineActivationService.activateDeviceOffline(normalizedKey);
 
       if (response.success && response.data) {
