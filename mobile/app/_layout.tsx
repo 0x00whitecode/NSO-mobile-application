@@ -21,13 +21,13 @@ export default function RootLayout() {
   useEffect(() => {
     async function prepare() {
       try {
-        // Check if user is first time user (needs onboarding, activation, or profile setup)
-        const firstTime = await UserStorage.isFirstTimeUser();
-        setIsFirstTimeUser(firstTime);
-        setShowOnboarding(firstTime);
+        // Check if user has completed the full setup (activation + registration)
+        const isSetupComplete = await UserStorage.isUserSetupComplete();
+        setIsFirstTimeUser(!isSetupComplete);
+        setShowOnboarding(!isSetupComplete);
 
         // Update last login if user is returning
-        if (!firstTime) {
+        if (isSetupComplete) {
           await UserStorage.updateLastLogin();
         }
 

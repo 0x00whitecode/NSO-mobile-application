@@ -43,11 +43,20 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   useEffect(() => {
     (async () => {
       try {
+        const isSetupComplete = await UserStorage.isUserSetupComplete();
+
+        if (isSetupComplete) {
+          // User has completed everything, skip onboarding
+          onComplete();
+          return;
+        }
+
         const device = await UserStorage.getDeviceInfo();
         const profile = await UserStorage.getUserProfile();
 
         if (device?.isActivated) {
           if (profile) {
+            // Both activation and profile exist, mark as complete
             await UserStorage.setOnboardingComplete();
             onComplete();
             return;
@@ -56,14 +65,14 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           setCurrentStep('registration');
           return;
         }
-        // Not activated yet: proceed to activation step
-        setCurrentStep('activation');
+        // Not activated yet: start with onboarding screen
+        setCurrentStep('onboarding');
       } catch (e) {
-        // Fallback to activation on any error
-        setCurrentStep('activation');
+        // Fallback to onboarding on any error
+        setCurrentStep('onboarding');
       }
     })();
-  }, []);
+  }, [onComplete]);
 
   const handleOnboardingComplete = () => {
     setCurrentStep('activation');
@@ -113,7 +122,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       try {
         const { apiService } = await import('../services/apiService');
         const response = await apiService.submitUserProfile(data);
-        
+
         if (response.success) {
           console.log('Profile submitted to backend successfully');
           // Add profile data to sync queue for future updates
@@ -132,7 +141,15 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         await syncService.addToSyncQueue('user_profile', data, 'high');
       }
 
-      setCurrentStep('menu');
+      // Check if setup is now complete
+      const isSetupComplete = await UserStorage.isUserSetupComplete();
+      if (isSetupComplete) {
+        // Setup is complete, go directly to main app
+        onComplete();
+      } else {
+        // Still need to complete some steps, show menu
+        setCurrentStep('menu');
+      }
     } catch (error) {
       console.error('Error saving user profile:', error);
       // Still proceed to menu even if storage fails

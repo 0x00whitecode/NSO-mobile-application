@@ -17,8 +17,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { Colors, Spacing, Typography } from '../constants/theme';
-// import { apiService } from '../services/apiService';
-import { offlineActivationService } from '../services/offlineActivationService';
+import { apiService } from '../services/apiService';
 import Button from './ui/Button';
 import { StatusCard } from './ui/Card';
 import Input from './ui/Input';
@@ -81,7 +80,7 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
     const normalizedKey = activationKey.replace(/\D/g, '');
 
     // Reflect normalization in the input field (format as XXXX-XXXX-XXXX for display)
-    const displayKey = normalizedKey.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3');
+    const displayKey = normalizedKey.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3'); // display only
     if (displayKey !== activationKey && normalizedKey.length === 12) {
       setActivationKey(displayKey);
     }
@@ -97,14 +96,10 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
     try {
       let response;
 
-      // Offline-only activation: skip backend calls
-      // If you want to enable online activation later, restore the block that calls apiService.activateDevice
-
-      // Use offline activation
-      response = await offlineActivationService.activateDeviceOffline(normalizedKey);
+      // Online activation via backend
+      response = await apiService.activateDevice(normalizedKey);
 
       if (response.success && response.data) {
-        // Keep loading visible while transitioning to next screen
         onActivationComplete(normalizedKey);
         return;
       } else {
@@ -274,7 +269,7 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
                 {!isOnline && (
                   <StatusCard status="warning" style={styles.networkStatus}>
                     <Text style={styles.networkText}>
-                      ⚠️ No internet connection. Using offline activation mode.
+                      ⚠️ No internet connection. Activation requires internet. Please connect to proceed.
                     </Text>
                   </StatusCard>
                 )}
@@ -296,7 +291,7 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
                   </View>
                   <View style={styles.securityItem}>
                     <Text style={styles.securityBullet}>📱</Text>
-                    <Text style={styles.securityText}>Works offline and online</Text>
+                    <Text style={styles.securityText}>Activation is performed online</Text>
                   </View>
                 </StatusCard>
 

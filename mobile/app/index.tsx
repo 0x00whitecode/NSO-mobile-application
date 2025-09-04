@@ -16,8 +16,9 @@ import ProfileScreen from "../components/ProfileScreen";
 import { Colors } from "../constants/theme";
 import { useBackendIntegration } from "../hooks/useBackendIntegration";
 import { UserStorage } from "../utils/userStorage";
+import { NavigationDebug } from "../utils/navigationDebug";
 
-type Screen = 'onboarding' | 'dashboard' | 'diagnosis' | 'history' | 'clinical-records' | 'decision-support' | 'categories' | 'profile';
+type Screen = 'onboarding' | 'dashboard' | 'diagnosis' | 'history' | 'clinical-records' | 'decision-support' | 'categories' | 'profile' | 'loading';
 
 export default function Index() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('onboarding');
@@ -33,44 +34,54 @@ export default function Index() {
   useEffect(() => {
     const checkAuthState = async () => {
       try {
-        const isFirstTime = await UserStorage.isFirstTimeUser();
+        console.log('Checking authentication state...');
+        const isSetupComplete = await UserStorage.isUserSetupComplete();
+        console.log('Setup complete:', isSetupComplete);
 
-        // Use backend authentication state
-        if (!isFirstTime && backendState.isAuthenticated) {
+        if (isSetupComplete) {
+          // User has completed activation and registration, go directly to dashboard
+          console.log('User setup complete, setting authenticated state');
           setIsAuthenticated(true);
           setCurrentScreen('dashboard');
 
-          // Track app launch
-          await backendActions.trackActivity({
-            activityType: 'app_launch',
-            screen: { name: 'dashboard', category: 'main' },
-            action: { name: 'app_started', target: 'application' },
-          });
-        } else if (!isFirstTime) {
-          // User exists but not authenticated with backend
-          setCurrentScreen('onboarding');
+          // Track app launch (but don't let backend errors affect navigation)
+          try {
+            await backendActions.trackActivity({
+              activityType: 'app_launch',
+              screen: { name: 'dashboard', category: 'main' },
+              action: { name: 'app_started', target: 'application' },
+            });
+          } catch (trackingError) {
+            console.warn('Failed to track app launch, but continuing:', trackingError);
+          }
         } else {
-          // First time user, show onboarding
+          // User needs to complete activation and/or registration
+          console.log('User setup incomplete, showing onboarding');
+          setIsAuthenticated(false);
           setCurrentScreen('onboarding');
         }
       } catch (error) {
         console.error('Error checking auth state:', error);
-        await backendActions.trackError(
-          error instanceof Error ? error.message : 'Auth check failed',
-          'AUTH_CHECK_ERROR'
-        );
+        try {
+          await backendActions.trackError(
+            error instanceof Error ? error.message : 'Auth check failed',
+            'AUTH_CHECK_ERROR'
+          );
+        } catch (trackingError) {
+          console.warn('Failed to track auth error:', trackingError);
+        }
         // Default to onboarding on error
+        setIsAuthenticated(false);
         setCurrentScreen('onboarding');
       } finally {
         setIsLoading(false);
       }
     };
 
-    // Only check auth state when backend is not loading
-    if (!backendState.isLoading) {
-      checkAuthState();
-    }
-  }, [backendState.isLoading, backendState.isAuthenticated, backendActions]);
+    // Check auth state immediately, don't wait for backend
+    // Backend integration should not block local authentication
+    checkAuthState();
+  }, [backendActions]);
 
   // Handle Android back button
   useEffect(() => {
@@ -163,12 +174,12 @@ export default function Index() {
   };
 
   const handleNavigate = async (screen: string) => {
-    console.log(`Navigate to: ${screen}`);
+    console.log(`Navigate to: ${screen}, current: ${currentScreen}, authenticated: ${isAuthenticated}`);
 
     // Validate screen type
     const validScreens: Screen[] = [
       'onboarding', 'dashboard', 'diagnosis', 'history',
-      'clinical-records', 'decision-support', 'categories', 'profile'
+      'clinical-records', 'decision-support', 'categories', 'profile', 'loading'
     ];
 
     if (!validScreens.includes(screen as Screen)) {
@@ -176,8 +187,33 @@ export default function Index() {
       return;
     }
 
-    // Track screen navigation
-    await backendActions.trackScreen(screen, `/${screen}`);
+    // Ensure user is authenticated for protected screens
+    if (screen !== 'onboarding' && !isAuthenticated) {
+      console.warn(`Attempted to navigate to protected screen ${screen} while unauthenticated`);
+      // Re-check authentication before blocking
+      try {
+        const isSetupComplete = await UserStorage.isUserSetupComplete();
+        if (isSetupComplete) {
+          console.log('User is actually authenticated locally, updating state');
+          setIsAuthenticated(true);
+        } else {
+          console.log('User is not authenticated, redirecting to onboarding');
+          setCurrentScreen('onboarding');
+          return;
+        }
+      } catch (error) {
+        console.error('Error checking auth during navigation:', error);
+        setCurrentScreen('onboarding');
+        return;
+      }
+    }
+
+    // Track screen navigation (don't let tracking errors block navigation)
+    try {
+      await backendActions.trackScreen(screen, `/${screen}`);
+    } catch (trackingError) {
+      console.warn('Failed to track screen navigation:', trackingError);
+    }
 
     // Add current screen to history before navigating (except for dashboard)
     if (currentScreen !== 'dashboard' && currentScreen !== screen) {
@@ -224,7 +260,34 @@ export default function Index() {
   };
 
   const handleCategorySelect = (category: any) => {
-    console.log("Selected category:", category);
+    NavigationDebug.logNavigationState(currentScreen, isAuthenticated, selectedCategory, navigationHistory);
+    NavigationDebug.logScreenTransition(currentScreen, 'clinical-records', 'category_selection');
+
+    console.log("Selected category:", category, "current screen:", currentScreen, "authenticated:", isAuthenticated);
+
+    // Ensure user is still authenticated before proceeding
+    if (!isAuthenticated) {
+      console.warn("User not authenticated during category selection, re-checking...");
+      UserStorage.isUserSetupComplete().then(isComplete => {
+        if (isComplete) {
+          console.log("User is authenticated locally, proceeding with category selection");
+          NavigationDebug.logAuthStateChange(false, true, 'category_selection_reauth');
+          setIsAuthenticated(true);
+          setSelectedCategory(category);
+          setCurrentScreen('clinical-records');
+        } else {
+          console.log("User is not authenticated, redirecting to onboarding");
+          NavigationDebug.logScreenTransition(currentScreen, 'onboarding', 'auth_failure');
+          setCurrentScreen('onboarding');
+        }
+      }).catch(error => {
+        console.error("Error checking auth during category selection:", error);
+        NavigationDebug.logScreenTransition(currentScreen, 'onboarding', 'auth_error');
+        setCurrentScreen('onboarding');
+      });
+      return;
+    }
+
     setSelectedCategory(category);
     setCurrentScreen('clinical-records');
   };
@@ -239,9 +302,37 @@ export default function Index() {
       );
     }
 
-    // Show onboarding for unauthenticated users or when explicitly on onboarding screen
-    if (!isAuthenticated || currentScreen === 'onboarding') {
+    // Show onboarding only when explicitly on onboarding screen
+    if (currentScreen === 'onboarding') {
       return <OnboardingFlow onComplete={handleOnboardingComplete} />;
+    }
+
+    // If user is not authenticated but not on onboarding screen, re-check local auth
+    if (!isAuthenticated) {
+      console.log('User appears unauthenticated, checking local auth state...');
+      // Re-check local authentication state
+      UserStorage.isUserSetupComplete().then(isComplete => {
+        if (isComplete) {
+          console.log('Local auth is valid, restoring authenticated state');
+          setIsAuthenticated(true);
+          if (currentScreen === 'onboarding') {
+            setCurrentScreen('dashboard');
+          }
+        } else {
+          console.log('Local auth is invalid, redirecting to onboarding');
+          setCurrentScreen('onboarding');
+        }
+      }).catch(error => {
+        console.error('Error re-checking auth state:', error);
+        setCurrentScreen('onboarding');
+      });
+
+      // Show loading while re-checking
+      return (
+        <SafeAreaView style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Checking authentication...</Text>
+        </SafeAreaView>
+      );
     }
 
     switch (currentScreen) {

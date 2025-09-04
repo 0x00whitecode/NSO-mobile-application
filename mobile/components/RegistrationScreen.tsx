@@ -43,6 +43,60 @@ const roles = [
   { label: 'Other Healthcare Worker', value: 'other', icon: '📋' },
 ];
 
+const facilities = [
+  { label: 'General Hospital', value: 'general_hospital', icon: '🏥' },
+  { label: 'Primary Health Centre', value: 'primary_health_centre', icon: '🏥' },
+  { label: 'Specialist Hospital', value: 'specialist_hospital', icon: '🏥' },
+  { label: 'Teaching Hospital', value: 'teaching_hospital', icon: '🏥' },
+  { label: 'Private Hospital', value: 'private_hospital', icon: '🏥' },
+  { label: 'Clinic', value: 'clinic', icon: '🏥' },
+  { label: 'Health Post', value: 'health_post', icon: '🏥' },
+  { label: 'Maternity Centre', value: 'maternity_centre', icon: '🏥' },
+  { label: 'Dental Clinic', value: 'dental_clinic', icon: '🦷' },
+  { label: 'Eye Clinic', value: 'eye_clinic', icon: '👁️' },
+  { label: 'Other', value: 'other', icon: '🏥' },
+];
+
+const states = [
+  { label: 'Abia', value: 'abia', icon: '🇳🇬' },
+  { label: 'Adamawa', value: 'adamawa', icon: '🇳🇬' },
+  { label: 'Akwa Ibom', value: 'akwa_ibom', icon: '🇳🇬' },
+  { label: 'Anambra', value: 'anambra', icon: '🇳🇬' },
+  { label: 'Bauchi', value: 'bauchi', icon: '🇳🇬' },
+  { label: 'Bayelsa', value: 'bayelsa', icon: '🇳🇬' },
+  { label: 'Benue', value: 'benue', icon: '🇳🇬' },
+  { label: 'Borno', value: 'borno', icon: '🇳🇬' },
+  { label: 'Cross River', value: 'cross_river', icon: '🇳🇬' },
+  { label: 'Delta', value: 'delta', icon: '🇳🇬' },
+  { label: 'Ebonyi', value: 'ebonyi', icon: '🇳🇬' },
+  { label: 'Edo', value: 'edo', icon: '🇳🇬' },
+  { label: 'Ekiti', value: 'ekiti', icon: '🇳🇬' },
+  { label: 'Enugu', value: 'enugu', icon: '🇳🇬' },
+  { label: 'FCT - Abuja', value: 'fct', icon: '🇳🇬' },
+  { label: 'Gombe', value: 'gombe', icon: '🇳🇬' },
+  { label: 'Imo', value: 'imo', icon: '🇳🇬' },
+  { label: 'Jigawa', value: 'jigawa', icon: '🇳🇬' },
+  { label: 'Kaduna', value: 'kaduna', icon: '🇳🇬' },
+  { label: 'Kano', value: 'kano', icon: '🇳🇬' },
+  { label: 'Katsina', value: 'katsina', icon: '🇳🇬' },
+  { label: 'Kebbi', value: 'kebbi', icon: '🇳🇬' },
+  { label: 'Kogi', value: 'kogi', icon: '🇳🇬' },
+  { label: 'Kwara', value: 'kwara', icon: '🇳🇬' },
+  { label: 'Lagos', value: 'lagos', icon: '🇳🇬' },
+  { label: 'Nasarawa', value: 'nasarawa', icon: '🇳🇬' },
+  { label: 'Niger', value: 'niger', icon: '🇳🇬' },
+  { label: 'Ogun', value: 'ogun', icon: '🇳🇬' },
+  { label: 'Ondo', value: 'ondo', icon: '🇳🇬' },
+  { label: 'Osun', value: 'osun', icon: '🇳🇬' },
+  { label: 'Oyo', value: 'oyo', icon: '🇳🇬' },
+  { label: 'Plateau', value: 'plateau', icon: '🇳🇬' },
+  { label: 'Rivers', value: 'rivers', icon: '🇳🇬' },
+  { label: 'Sokoto', value: 'sokoto', icon: '🇳🇬' },
+  { label: 'Taraba', value: 'taraba', icon: '🇳🇬' },
+  { label: 'Yobe', value: 'yobe', icon: '🇳🇬' },
+  { label: 'Zamfara', value: 'zamfara', icon: '🇳🇬' },
+];
+
 export default function RegistrationScreen({ onRegistrationComplete }: RegistrationScreenProps) {
   const [formData, setFormData] = useState<UserData>({
     fullName: '',
@@ -139,11 +193,11 @@ export default function RegistrationScreen({ onRegistrationComplete }: Registrat
       return;
     }
     if (!formData.facility.trim()) {
-      Alert.alert('Error', 'Please enter your facility');
+      Alert.alert('Error', 'Please select your facility type');
       return;
     }
     if (!formData.state.trim()) {
-      Alert.alert('Error', 'Please enter your state');
+      Alert.alert('Error', 'Please select your state');
       return;
     }
     if (!formData.contactInfo.trim()) {
@@ -236,24 +290,24 @@ export default function RegistrationScreen({ onRegistrationComplete }: Registrat
               />
 
               {/* Facility */}
-              <Input
+              <Dropdown
                 label="Facility"
+                placeholder="Select your facility type"
+                options={facilities}
                 value={formData.facility}
-                onChangeText={(text) => updateFormData('facility', text)}
-                placeholder="Enter your facility name"
-                autoCapitalize="words"
-                editable={!isLoading}
+                onSelect={(option) => updateFormData('facility', option.value)}
+                disabled={isLoading}
                 required
               />
 
               {/* State */}
-              <Input
+              <Dropdown
                 label="State"
+                placeholder="Select your state"
+                options={states}
                 value={formData.state}
-                onChangeText={(text) => updateFormData('state', text)}
-                placeholder="Enter your state"
-                autoCapitalize="words"
-                editable={!isLoading}
+                onSelect={(option) => updateFormData('state', option.value)}
+                disabled={isLoading}
                 required
               />
 

@@ -260,13 +260,11 @@ class ApiService {
         await AsyncStorage.setItem(STORAGE_KEYS.DEVICE_ID, this.deviceId);
       }
 
-      // Normalize activation key format to match backend validation (AAAA-BBBB-CCCC-DDDD)
+      // Normalize to 12-digit numeric key for backend
       const normalizedKey = activationKey
         .toString()
-        .toUpperCase()
-        .replace(/[^A-Z0-9]/g, '')
-        .replace(/(.{4})/g, '$1-')
-        .replace(/-$/, '');
+        .replace(/\D/g, '')
+        .slice(0, 12);
 
       const deviceInfo = await this.getDeviceInfo();
       const location = await this.getCurrentLocation();
@@ -349,11 +347,11 @@ class ApiService {
   }
 
   /**
-   * Submit user profile after activation
+   * Submit user profile after activation (connects to backend PUT /users/profile)
    */
   async submitUserProfile(userProfile: {
     fullName: string;
-    role: string;
+    role: string; // ignored by backend update (role is managed by activation key)
     facility: string;
     state: string;
     contactInfo: string;
@@ -362,18 +360,25 @@ class ApiService {
       longitude: number;
       address: string;
     };
-  }): Promise<ApiResponse<{ profileId: string; syncStatus: string }>> {
+  }): Promise<ApiResponse<{ user: any; updatedFields: string[] }>> {
     try {
       const deviceInfo = await this.getDeviceInfo();
       const currentLocation = await this.getCurrentLocation();
 
-      const response = await this.makeRequest<{ profileId: string; syncStatus: string }>(
+      // Map fullName to firstName/lastName (backend accepts these fields on PUT)
+      const [firstName, ...rest] = userProfile.fullName.split(' ').filter(Boolean);
+      const lastName = rest.join(' ') || firstName;
+
+      const response = await this.makeRequest<{ user: any; updatedFields: string[] }>(
         '/users/profile',
         {
-          method: 'POST',
+          method: 'PUT',
           body: JSON.stringify({
-            ...userProfile,
-            deviceId: this.deviceId,
+            firstName,
+            lastName,
+            facility: userProfile.facility,
+            state: userProfile.state,
+            contactInfo: userProfile.contactInfo,
             deviceInfo,
             currentLocation,
             sessionId: this.sessionId,
@@ -383,17 +388,8 @@ class ApiService {
       );
 
       if (response.success && response.data) {
-        // Store updated user profile
-        const storedUserData = await AsyncStorage.getItem(STORAGE_KEYS.USER_DATA);
-        if (storedUserData) {
-          const userData = JSON.parse(storedUserData);
-          const updatedUserData = {
-            ...userData,
-            ...userProfile,
-            lastUpdated: new Date().toISOString()
-          };
-          await AsyncStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(updatedUserData));
-        }
+        // Replace stored user with backend-updated user
+        await AsyncStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(response.data.user));
       }
 
       return response;

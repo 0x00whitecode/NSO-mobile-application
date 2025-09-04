@@ -68,13 +68,20 @@ export function useBackendIntegration(): [BackendState, BackendActions] {
       let user: UserProfile | null = null;
 
       if (isAuth) {
-        // Verify token and get user data
-        const response = await apiService.verifyToken();
-        if (response.success && response.data?.valid) {
-          user = response.data.user || await apiService.getStoredUserData();
-        } else {
-          // Token invalid, clear auth
-          await apiService.logout();
+        try {
+          // Verify token and get user data
+          const response = await apiService.verifyToken();
+          if (response.success && response.data?.valid) {
+            user = response.data.user || await apiService.getStoredUserData();
+          } else {
+            // Token invalid, but don't automatically logout - user might be working offline
+            console.warn('Backend token verification failed, but keeping user in offline mode');
+            user = await apiService.getStoredUserData();
+          }
+        } catch (verifyError) {
+          console.warn('Token verification failed, working in offline mode:', verifyError);
+          // Try to get stored user data for offline mode
+          user = await apiService.getStoredUserData();
         }
       }
 

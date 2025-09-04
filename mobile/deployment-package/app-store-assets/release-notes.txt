@@ -1,0 +1,24 @@
+NSO Mobile v1.0.1 - Initial Release
+
+🎉 Welcome to NSO Mobile - Your Smart Clinical Assistant!
+
+New Features:
+✅ Smart clinical decision support system
+✅ Offline functionality for remote areas
+✅ Secure activation key validation
+✅ GPS tracking and facility management
+✅ Real-time data synchronization
+✅ Evidence-based diagnostic tools
+✅ Clinical category management
+✅ User profile and settings management
+
+Security & Performance:
+🔒 Enhanced activation key validation
+🔒 Improved authentication system
+🚀 Optimized navigation and user experience
+🚀 Better offline data handling
+🚀 Improved error handling and logging
+
+This initial release provides healthcare professionals with a comprehensive tool for clinical decision-making, patient management, and data collection in both connected and offline environments.
+
+Perfect for healthcare workers in rural areas, community health programs, and field medical services.

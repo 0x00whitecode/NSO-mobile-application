@@ -228,17 +228,43 @@ export const UserStorage = {
     }
   },
 
+  // Reset app to first-time user state (for testing)
+  async resetToFirstTimeUser(): Promise<void> {
+    try {
+      await AsyncStorage.clear(); // Clear all stored data
+      console.log('App reset to first-time user state');
+    } catch (error) {
+      console.error('Error resetting app:', error);
+      throw error;
+    }
+  },
+
   // Check if user is first time user
   async isFirstTimeUser(): Promise<boolean> {
     try {
       const hasOnboarded = await this.hasCompletedOnboarding();
       const hasProfile = await this.getUserProfile();
       const isActivated = await this.isDeviceActivated();
-      
-      return !hasOnboarded || !hasProfile || !isActivated;
+
+      // User is NOT first time if they have completed all three steps
+      return !(hasOnboarded && hasProfile && isActivated);
     } catch (error) {
       console.error('Error checking first time user:', error);
       return true; // Default to first time user on error
+    }
+  },
+
+  // Check if user has completed the full setup (activation + registration)
+  async isUserSetupComplete(): Promise<boolean> {
+    try {
+      const hasOnboarded = await this.hasCompletedOnboarding();
+      const hasProfile = await this.getUserProfile();
+      const isActivated = await this.isDeviceActivated();
+
+      return hasOnboarded && hasProfile && isActivated;
+    } catch (error) {
+      console.error('Error checking user setup completion:', error);
+      return false;
     }
   },
 };

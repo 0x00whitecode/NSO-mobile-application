@@ -1,6 +1,7 @@
 import CryptoJS from 'crypto-js';
 import { Platform } from 'react-native';
 import AsyncStorage from '../utils/storageAdapter';
+import { ActivationKeyManager } from '../utils/activationKeyManager';
 
 // Types for offline activation with 12-digit keys
 export interface OfflineActivationData {
@@ -74,14 +75,23 @@ class OfflineActivationService {
       // Offline-only validation: do not call backend
 
       // Try to decrypt embedded user data (offline validation)
-      // This will use the key to derive mock user data for now
       try {
-        const userData = this.decryptUserData(cleanKey);
+        const userData = await this.decryptUserData(cleanKey);
         if (userData) {
-          return {
-            success: true,
-            data: userData
-          };
+          // Validate the decrypted data
+          const validation = this.validateActivationData(userData);
+          if (validation.isValid) {
+            return {
+              success: true,
+              data: userData
+            };
+          } else {
+            return {
+              success: false,
+              error: validation.error,
+              code: validation.code
+            };
+          }
         }
       } catch (error) {
         console.log('Offline decryption failed:', error);
@@ -115,35 +125,128 @@ class OfflineActivationService {
   /**
    * Decrypt user data from key (offline validation)
    */
-  private decryptUserData(key: string): OfflineActivationData | null {
+  private async decryptUserData(key: string): Promise<OfflineActivationData | null> {
     try {
-      // This is a simplified example. In a real implementation,
-      // the key would contain encrypted user data that can be decrypted offline
-      // For now, we'll create mock data based on the key
-      const expires = new Date();
-      expires.setDate(expires.getDate() + 30);
+      // Get the encrypted data for this key from storage
+      const encryptedData = await this.getEncryptedDataForKey(key);
 
-      const mockUserData: OfflineActivationData = {
-        fullName: `User ${key.slice(0, 4)}`,
-        email: `user${key.slice(0, 4)}@example.com`,
-        phone: `+234${key.slice(4, 8)}${key.slice(8, 12)}`,
-        role: 'doctor',
-        facility: 'Health Facility',
-        state: 'Lagos',
-        contactInfo: '',
+      if (!encryptedData) {
+        console.log(`No encrypted data found for key: ${key}`);
+        return null;
+      }
+
+      // Decrypt the user data using the same method as backend
+      const decryptedData = this.decryptData(encryptedData);
+
+      if (!decryptedData) {
+        console.log(`Failed to decrypt data for key: ${key}`);
+        return null;
+      }
+
+      // Parse the decrypted JSON data
+      const userData = JSON.parse(decryptedData);
+
+      // Convert to OfflineActivationData format
+      const activationData: OfflineActivationData = {
+        fullName: userData.fullName,
+        email: userData.email,
+        phone: userData.phone || '',
+        role: userData.role,
+        facility: userData.facility || '',
+        state: userData.state || '',
+        contactInfo: userData.email,
         status: 'active',
-        validUntil: expires.toISOString(),
+        validUntil: userData.validUntil || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
         maxUses: 1,
         usageCount: 0,
-        generatedAt: new Date().toISOString(),
+        generatedAt: userData.generatedAt || new Date().toISOString(),
         keyId: key
       };
 
-      return mockUserData;
+      return activationData;
     } catch (error) {
       console.error('Error decrypting user data:', error);
       return null;
     }
+  }
+
+  /**
+   * Get encrypted data for a specific activation key
+   */
+  private async getEncryptedDataForKey(key: string): Promise<string | null> {
+    try {
+      // Get the stored activation keys
+      const storedKeys = await this.getStoredActivationKeys();
+      const keyData = storedKeys.find(k => k.key === key);
+      return keyData ? keyData.encryptedUserData : null;
+    } catch (error) {
+      console.error('Error getting encrypted data for key:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get stored activation keys from local storage
+   */
+  private async getStoredActivationKeys(): Promise<Array<{key: string, encryptedUserData: string}>> {
+    try {
+      // Initialize demo keys if none exist
+      await ActivationKeyManager.initializeDemoKeys();
+
+      // Get keys from the manager
+      const validKeys = await ActivationKeyManager.getValidKeys();
+
+      return validKeys.map(k => ({
+        key: k.key,
+        encryptedUserData: k.encryptedUserData
+      }));
+    } catch (error) {
+      console.error('Error getting stored activation keys:', error);
+      return this.getDefaultActivationKeys();
+    }
+  }
+
+  /**
+   * Get default activation keys for demo/testing
+   */
+  private getDefaultActivationKeys(): Array<{key: string, encryptedUserData: string}> {
+    // These are demo keys with encrypted user data
+    // In production, these would be synced from the backend
+    return [
+      {
+        key: '123456789012',
+        encryptedUserData: this.createDemoEncryptedData('Dr. John Doe', 'john.doe@example.com', 'doctor', 'Central Hospital', 'Lagos')
+      },
+      {
+        key: '987654321098',
+        encryptedUserData: this.createDemoEncryptedData('Nurse Jane Smith', 'jane.smith@example.com', 'nurse', 'Community Clinic', 'Abuja')
+      },
+      {
+        key: '111111111111',
+        encryptedUserData: this.createDemoEncryptedData('Admin User', 'admin@nso.gov.ng', 'admin', 'NSO Headquarters', 'FCT')
+      }
+    ];
+  }
+
+  /**
+   * Create demo encrypted data for testing
+   */
+  private createDemoEncryptedData(fullName: string, email: string, role: string, facility: string, state: string): string {
+    const userData = {
+      fullName,
+      email,
+      phone: '+234' + Math.random().toString().slice(2, 12),
+      role,
+      facility,
+      state,
+      generatedAt: new Date().toISOString(),
+      validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+    };
+
+    // Create a simple encrypted format for demo
+    // In production, this would use proper AES encryption matching the backend
+    const jsonData = JSON.stringify(userData);
+    return Buffer.from(jsonData).toString('base64');
   }
 
   /**
@@ -180,6 +283,13 @@ class OfflineActivationService {
           error: 'Device is already activated',
           code: 'DEVICE_ALREADY_ACTIVATED'
         };
+      }
+
+      // Mark the activation key as used
+      try {
+        await ActivationKeyManager.markKeyAsUsed(activationKey);
+      } catch (error) {
+        console.warn('Failed to mark key as used:', error);
       }
 
       // Store activation data locally
@@ -279,26 +389,43 @@ class OfflineActivationService {
   }
 
   /**
-   * Decrypt data using AES
+   * Decrypt data using AES or base64 (for demo)
    */
   private decryptData(encryptedData: string): string | null {
     try {
-      // Extract IV (first 32 characters) and encrypted data
-      const iv = encryptedData.slice(0, 32);
-      const encrypted = encryptedData.slice(32);
-      
-      // Decrypt using CryptoJS with IV
-      const key = CryptoJS.enc.Utf8.parse(this.ENCRYPTION_KEY.padEnd(32, '0').slice(0, 32));
-      const ivBytes = CryptoJS.enc.Hex.parse(iv);
-      const encryptedBytes = CryptoJS.enc.Hex.parse(encrypted);
-      
-      const decrypted = CryptoJS.AES.decrypt(
-        { ciphertext: encryptedBytes },
-        key,
-        { iv: ivBytes, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
-      );
-      
-      return decrypted.toString(CryptoJS.enc.Utf8);
+      // First try base64 decoding for demo keys
+      if (!encryptedData.includes('0123456789abcdef')) {
+        try {
+          const decoded = Buffer.from(encryptedData, 'base64').toString('utf8');
+          // Validate it's JSON
+          JSON.parse(decoded);
+          return decoded;
+        } catch (base64Error) {
+          // Not base64, continue to AES decryption
+        }
+      }
+
+      // Try AES decryption for production keys
+      if (encryptedData.length > 32) {
+        // Extract IV (first 32 characters) and encrypted data
+        const iv = encryptedData.slice(0, 32);
+        const encrypted = encryptedData.slice(32);
+
+        // Decrypt using CryptoJS with IV
+        const key = CryptoJS.enc.Utf8.parse(this.ENCRYPTION_KEY.padEnd(32, '0').slice(0, 32));
+        const ivBytes = CryptoJS.enc.Hex.parse(iv);
+        const encryptedBytes = CryptoJS.enc.Hex.parse(encrypted);
+
+        const decrypted = CryptoJS.AES.decrypt(
+          { ciphertext: encryptedBytes },
+          key,
+          { iv: ivBytes, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
+        );
+
+        return decrypted.toString(CryptoJS.enc.Utf8);
+      }
+
+      return null;
     } catch (error) {
       console.error('Decryption error:', error);
       return null;

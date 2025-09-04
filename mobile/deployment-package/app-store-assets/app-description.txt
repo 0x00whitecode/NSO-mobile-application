@@ -1,0 +1,32 @@
+NSO Mobile - Smart Clinical Assistant for Healthcare Workers
+
+NSO Mobile is a comprehensive healthcare management system designed for healthcare professionals working in field and clinical environments.
+
+Key Features:
+• Smart clinical decision support with evidence-based guidelines
+• Offline-first design for low connectivity areas
+• GPS-enabled facility tracking and location services
+• Secure activation key system for authorized access
+• Real-time data synchronization when online
+• Administrative dashboard integration
+• Clinical category management
+• Patient diagnosis and record keeping
+• Activity tracking and reporting
+
+Perfect for:
+• Community health workers
+• Field medical professionals
+• Rural healthcare providers
+• Clinical supervisors
+• Healthcare administrators
+• Medical inspectors
+
+The app works seamlessly offline and syncs data when connectivity is available, ensuring healthcare delivery is never interrupted by network issues. Built with security and reliability in mind, NSO Mobile helps healthcare professionals provide better care while maintaining proper documentation and oversight.
+
+Technical Features:
+• Offline data storage and sync
+• Location-based services
+• Encrypted data transmission
+• Role-based access control
+• Multi-language support ready
+• Cross-platform compatibility

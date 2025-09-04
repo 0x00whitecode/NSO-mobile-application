@@ -1,50 +1,63 @@
-# Welcome to your Expo app 👋
+# NSO Mobile Application
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+An online-activation React Native application for NSO. This app now supports online-only activation with 12-digit keys, user onboarding/registration, and a seamless data capture experience.
 
-## Get started
+## Key Features
+- Online-only device activation with 12-digit activation keys
+- Registration/Profile submission connected to backend
+- Sync-ready architecture (API service, device info, location metadata)
 
-1. Install dependencies
+## Activation (Online Only)
+- Keys must be 12 numeric digits (e.g., 123456789012)
+- Mobile formats the input visually, but sends 12 digits to backend
+- Requires internet connectivity to activate
 
-   ```bash
-   npm install
-   ```
+Backend endpoint used:
+- POST /api/v1/auth/activate
 
-2. Start the app
+Expected response (simplified):
+- success, token, refreshToken, data.user, keyExpiresAt, remainingDays
 
-   ```bash
-   npx expo start
-   ```
+## Registration/Profile
+After activation, user completes registration. The app updates profile server-side.
 
-In the output, you'll find options to open the app in a
+Backend endpoint used:
+- PUT /api/v1/users/profile
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Payload (simplified):
+- firstName, lastName, facility, state, contactInfo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Note: User role is assigned by the activation key and not changed by profile update.
 
-## Get a fresh project
+## Project Structure (mobile/)
+- app/                    (entry and navigation)
+- components/             (UI screens/components)
+- services/apiService.ts  (HTTP client, activation, profile submission)
+- assets/                 (images/fonts)
 
-When you're ready, run:
+## Configuration
+Set the API base URL and environment in `mobile/services/apiService.ts` (or your env manager) as needed for your deployment.
 
-```bash
-npm run reset-project
-```
+Typical environment variables:
+- API_BASE_URL (e.g., https://api.example.com/api/v1)
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Development
+- Install dependencies: `npm install` or `yarn`
+- iOS: `npx pod-install` (inside ios/) then `npm run ios`
+- Android: `npm run android`
 
-## Learn more
+## Testing
+- Unit tests: `npm test`
+- Lint: `npm run lint`
 
-To learn more about developing your project with Expo, look at the following resources:
+## Build
+- Android Release: `cd android && ./gradlew assembleRelease`
+- iOS Release: Xcode archive or `fastlane`
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Notes
+- Activation requires internet connection
+- Keys are validated online and marked used by the backend
+- Admin console manages keys (userDetails, expiresAt)
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## License
+Proprietary. All rights reserved.

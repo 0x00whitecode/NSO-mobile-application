@@ -1,36 +1,6 @@
 import AsyncStorage from '../utils/storageAdapter';
-import { Alert, PermissionsAndroid, Platform } from 'react-native';
-
-// Mock Geolocation for web compatibility
-const Geolocation = {
-  getCurrentPosition: (
-    success: (position: any) => void,
-    error: (error: any) => void,
-    options?: any
-  ) => {
-    // Use browser geolocation API if available
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error, options);
-    } else {
-      error({ code: 2, message: 'Geolocation not supported' });
-    }
-  },
-  watchPosition: (
-    success: (position: any) => void,
-    error: (error: any) => void,
-    options?: any
-  ) => {
-    if (navigator.geolocation) {
-      return navigator.geolocation.watchPosition(success, error, options);
-    }
-    return -1;
-  },
-  clearWatch: (watchId: number) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.clearWatch(watchId);
-    }
-  }
-};
+import { Alert } from 'react-native';
+import * as Location from 'expo-location';
 
 // Types
 export interface LocationData {
@@ -77,31 +47,17 @@ class LocationService {
    */
   async requestLocationPermission(): Promise<LocationPermissionStatus> {
     try {
-      if (Platform.OS === 'android') {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: 'NSO Location Permission',
-            message: 'NSO needs access to your location to provide better healthcare services and track facility visits.',
-            buttonNeutral: 'Ask Me Later',
-            buttonNegative: 'Cancel',
-            buttonPositive: 'OK',
-          }
-        );
+      // Request foreground location permission
+      const { status } = await Location.requestForegroundPermissionsAsync();
 
-        return {
-          granted: granted === PermissionsAndroid.RESULTS.GRANTED,
-          canAskAgain: granted !== PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN,
-          status: granted,
-        };
-      } else {
-        // For iOS, permissions are handled automatically by the system
-        return {
-          granted: true,
-          canAskAgain: true,
-          status: 'granted',
-        };
-      }
+      const granted = status === 'granted';
+      const canAskAgain = status !== 'denied';
+
+      return {
+        granted,
+        canAskAgain,
+        status,
+      };
     } catch (error) {
       console.error('Failed to request location permission:', error);
       return {
@@ -115,98 +71,110 @@ class LocationService {
   /**
    * Get current location
    */
+  
   async getCurrentLocation(options: LocationOptions = {}): Promise<LocationData | null> {
-    return new Promise((resolve) => {
-      const defaultOptions = {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 10000,
-        ...options,
+    try {
+      // Check if location services are enabled
+      const isEnabled = await Location.hasServicesEnabledAsync();
+      if (!isEnabled) {
+        Alert.alert(
+          'Location Services Disabled',
+          'Please enable location services in your device settings to use this feature.'
+        );
+        return this.lastKnownLocation;
+      }
+
+      // Check permissions
+      const { status } = await Location.getForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          'Location Permission Required',
+          'Please enable location permissions in your device settings to use this feature.'
+        );
+        return this.lastKnownLocation;
+      }
+
+      const locationOptions: Location.LocationOptions = {
+        accuracy: options.enableHighAccuracy !== false ? Location.Accuracy.High : Location.Accuracy.Balanced,
+        timeInterval: options.timeout || 15000,
+        distanceInterval: 0,
       };
 
-      Geolocation.getCurrentPosition(
-        (position) => {
-          const locationData: LocationData = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            accuracy: position.coords.accuracy,
-            altitude: position.coords.altitude || undefined,
-            heading: position.coords.heading || undefined,
-            speed: position.coords.speed || undefined,
-            timestamp: position.timestamp,
-          };
+      const location = await Location.getCurrentPositionAsync(locationOptions);
 
-          this.lastKnownLocation = locationData;
-          this.cacheLocation(locationData);
-          this.notifyListeners(locationData);
-          resolve(locationData);
-        },
-        (error) => {
-          console.error('Failed to get current location:', error);
-          
-          // Show user-friendly error messages
-          switch (error.code) {
-            case 1: // PERMISSION_DENIED
-              Alert.alert(
-                'Location Permission Required',
-                'Please enable location permissions in your device settings to use this feature.'
-              );
-              break;
-            case 2: // POSITION_UNAVAILABLE
-              Alert.alert(
-                'Location Unavailable',
-                'Unable to determine your location. Please check your GPS settings.'
-              );
-              break;
-            case 3: // TIMEOUT
-              console.warn('Location request timed out, using cached location if available');
-              break;
-          }
+      const locationData: LocationData = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        accuracy: location.coords.accuracy || 0,
+        altitude: location.coords.altitude || undefined,
+        heading: location.coords.heading || undefined,
+        speed: location.coords.speed || undefined,
+        timestamp: location.timestamp,
+      };
 
-          resolve(this.lastKnownLocation);
-        },
-        defaultOptions
+      this.lastKnownLocation = locationData;
+      this.cacheLocation(locationData);
+      this.notifyListeners(locationData);
+      return locationData;
+    } catch (error) {
+      console.error('Failed to get current location:', error);
+
+      // Show user-friendly error message
+      Alert.alert(
+        'Location Unavailable',
+        'Unable to determine your location. Please check your GPS settings and try again.'
       );
-    });
+
+      return this.lastKnownLocation;
+    }
   }
 
   /**
    * Start watching location changes
    */
-  startWatchingLocation(options: LocationOptions = {}): void {
-    if (this.watchId !== null) {
-      this.stopWatchingLocation();
+  async startWatchingLocation(options: LocationOptions = {}): Promise<void> {
+    try {
+      if (this.watchId !== null) {
+        this.stopWatchingLocation();
+      }
+
+      // Check permissions first
+      const { status } = await Location.getForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.error('Location permission not granted for watching location');
+        return;
+      }
+
+      const locationOptions: Location.LocationOptions = {
+        accuracy: options.enableHighAccuracy !== false ? Location.Accuracy.High : Location.Accuracy.Balanced,
+        timeInterval: options.timeout || 20000,
+        distanceInterval: 10, // Update every 10 meters
+      };
+
+      const subscription = await Location.watchPositionAsync(
+        locationOptions,
+        (location) => {
+          const locationData: LocationData = {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            accuracy: location.coords.accuracy || 0,
+            altitude: location.coords.altitude || undefined,
+            heading: location.coords.heading || undefined,
+            speed: location.coords.speed || undefined,
+            timestamp: location.timestamp,
+          };
+
+          this.lastKnownLocation = locationData;
+          this.cacheLocation(locationData);
+          this.notifyListeners(locationData);
+        }
+      );
+
+      // Store the subscription as watchId (it has a remove method)
+      this.watchId = subscription as any;
+    } catch (error) {
+      console.error('Failed to start watching location:', error);
     }
-
-    const defaultOptions = {
-      enableHighAccuracy: true,
-      timeout: 20000,
-      maximumAge: 10000,
-      distanceFilter: 10, // Update every 10 meters
-      ...options,
-    };
-
-    this.watchId = Geolocation.watchPosition(
-      (position) => {
-        const locationData: LocationData = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          accuracy: position.coords.accuracy,
-          altitude: position.coords.altitude || undefined,
-          heading: position.coords.heading || undefined,
-          speed: position.coords.speed || undefined,
-          timestamp: position.timestamp,
-        };
-
-        this.lastKnownLocation = locationData;
-        this.cacheLocation(locationData);
-        this.notifyListeners(locationData);
-      },
-      (error) => {
-        console.error('Location watch error:', error);
-      },
-      defaultOptions
-    );
   }
 
   /**
@@ -214,7 +182,10 @@ class LocationService {
    */
   stopWatchingLocation(): void {
     if (this.watchId !== null) {
-      Geolocation.clearWatch(this.watchId);
+      // The subscription object has a remove method
+      if (typeof this.watchId === 'object' && 'remove' in this.watchId) {
+        (this.watchId as any).remove();
+      }
       this.watchId = null;
     }
   }
@@ -353,8 +324,15 @@ class LocationService {
    */
   async isLocationAvailable(): Promise<boolean> {
     try {
-      const permission = await this.requestLocationPermission();
-      return permission.granted;
+      // Check if location services are enabled on the device
+      const isEnabled = await Location.hasServicesEnabledAsync();
+      if (!isEnabled) {
+        return false;
+      }
+
+      // Check if we have permission
+      const { status } = await Location.getForegroundPermissionsAsync();
+      return status === 'granted';
     } catch (error) {
       console.error('Failed to check location availability:', error);
       return false;
