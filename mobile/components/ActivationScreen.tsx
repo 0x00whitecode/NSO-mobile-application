@@ -78,8 +78,9 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
   const handleActivation = async () => {
     console.log('[DEBUG] Starting activation process...');
     console.log('[DEBUG] Raw activation key:', activationKey);
+    console.log('[DEBUG] Activation key type:', typeof activationKey);
 
-    if (!activationKey.trim()) {
+    if (!activationKey || !activationKey.trim()) {
       console.log('[DEBUG] No activation key provided');
       setInputError('Please enter an activation key');
       return;
@@ -89,8 +90,10 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
     setInputError('');
     console.log('[DEBUG] Cleared previous errors');
 
-    // Normalize key: strip non-numeric characters
-    const normalizedKey = activationKey.replace(/\D/g, '');
+    // Ensure activationKey is a string and normalize key: strip non-numeric characters
+    const keyString = String(activationKey).trim();
+    const normalizedKey = keyString.replace(/\D/g, '');
+    console.log('[DEBUG] Key string:', keyString);
     console.log('[DEBUG] Normalized key:', normalizedKey);
 
     // Reflect normalization in the input field (format as XXXX-XXXX-XXXX for display)
@@ -123,44 +126,43 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
         // Save activation data to local storage
         try {
           const { UserStorage } = await import('../utils/userStorage');
-          const user = response.data.user;
+          const user = response.data.user as any; // Type assertion to handle API response
+          
+          // Create device info with proper validation
           const deviceInfo = {
             deviceId: user.deviceId || `device_${Date.now()}`,
             activationKey: normalizedKey,
             isActivated: true,
             activatedAt: new Date().toISOString(),
-            userId: user.userId,
-            userEmail: user.fullName, // Use fullName as email placeholder
-            userRole: user.role,
+            userId: user.userId || user.id || `user_${Date.now()}`,
+            userEmail: user.fullName || user.email || 'user@example.com',
+            userRole: user.role || 'doctor',
             token: response.data.token,
             keyExpiresAt: response.data.keyExpiresAt,
             remainingDays: response.data.remainingDays
           };
           
           await UserStorage.saveDeviceInfo(deviceInfo);
+          console.log('[DEBUG] Device info saved:', deviceInfo);
           
           // Save user profile from backend response (convert API UserProfile to local UserProfile)
           const userProfile = {
-            id: user.userId,
-            fullName: user.fullName,
-            role: user.role,
+            id: user.userId || user.id || `user_${Date.now()}`,
+            fullName: user.fullName || `${user.firstName || 'User'} ${user.lastName || 'Name'}`,
+            role: user.role || 'doctor',
             facility: user.facility || '',
             state: user.state || '',
-            contactInfo: '', // API UserProfile doesn't have contactInfo
+            contactInfo: user.contactInfo || '',
             createdAt: new Date().toISOString(),
             lastUpdated: new Date().toISOString(),
           };
           
           await UserStorage.saveUserProfile(userProfile);
+          console.log('[DEBUG] User profile saved:', userProfile);
           
-          // Check if user profile is complete (has facility, state, etc.)
-          const isProfileComplete = userProfile.facility && userProfile.state;
-          
-          if (isProfileComplete) {
-            // Profile is complete, mark setup as complete and go directly to dashboard
-            await UserStorage.setOnboardingComplete();
-            console.log('[DEBUG] Profile complete, skipping registration');
-          }
+          // Always mark setup as complete for immediate access after successful activation
+          await UserStorage.setOnboardingComplete();
+          console.log('[DEBUG] Setup marked as complete for immediate access');
           
           console.log('[DEBUG] Activation data saved to local storage');
         } catch (storageError) {

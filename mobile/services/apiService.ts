@@ -254,20 +254,57 @@ class ApiService {
     remainingDays: number;
   }>> {
     try {
+      console.log('[DEBUG API] Starting device activation...');
+      console.log('[DEBUG API] Original activation key:', activationKey);
+
+      // Validate activation key parameter
+      if (!activationKey || typeof activationKey !== 'string') {
+        console.error('[DEBUG API] Invalid activation key parameter:', activationKey);
+        return {
+          success: false,
+          error: 'Invalid activation key provided',
+          code: 'INVALID_ACTIVATION_KEY_PARAM',
+          timestamp: new Date().toISOString(),
+        };
+      }
+
       // Ensure deviceId is available (avoid race with async constructor init)
       if (!this.deviceId) {
         this.deviceId = await this.generateDeviceId();
         await AsyncStorage.setItem(STORAGE_KEYS.DEVICE_ID, this.deviceId);
+        console.log('[DEBUG API] Generated new deviceId:', this.deviceId);
       }
 
       // Normalize to 12-digit numeric key for backend
-      const normalizedKey = activationKey
-        .toString()
+      const normalizedKey = String(activationKey)
         .replace(/\D/g, '')
         .slice(0, 12);
 
+      console.log('[DEBUG API] Normalized key:', normalizedKey);
+      console.log('[DEBUG API] Device ID:', this.deviceId);
+
       const deviceInfo = await this.getDeviceInfo();
+      console.log('[DEBUG API] Device info:', deviceInfo);
+
       const location = await this.getCurrentLocation();
+      console.log('[DEBUG API] Location:', location);
+
+      console.log('[DEBUG API] Making request to /auth/activate');
+      console.log('[DEBUG API] Request payload:', {
+        activationKey: normalizedKey,
+        userInfo: {
+          fullName: 'User', // Backend will override from key
+          role: 'doctor',   // Backend will override from key
+          facility: '',
+          state: '',
+          contactInfo: '',
+          ...(overrideUserInfo || {})
+        },
+        deviceId: this.deviceId,
+        deviceInfo,
+        location,
+        sessionId: this.generateSessionId()
+      });
 
       const response = await this.makeRequest<{
         user: UserProfile;
@@ -296,7 +333,10 @@ class ApiService {
         }
       );
 
+      console.log('[DEBUG API] Response received:', response);
+
       if (response.success && response.data) {
+        console.log('[DEBUG API] Activation successful, storing auth data');
         // Store auth data
         this.authToken = response.data.token;
         this.sessionId = this.generateSessionId(); // Generate session ID locally
@@ -304,6 +344,8 @@ class ApiService {
         await AsyncStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, response.data.token);
         await AsyncStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(response.data.user));
         await AsyncStorage.setItem(STORAGE_KEYS.SESSION_ID, this.sessionId);
+      } else {
+        console.log('[DEBUG API] Activation failed with response:', response);
       }
 
       return response;
