@@ -82,19 +82,23 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     try {
       setActivationKey(key);
 
-      // Save device activation info
-      const deviceInfo: DeviceInfo = {
-        deviceId: `device_${Date.now()}`, // Generate unique device ID
-        activationKey: key,
-        isActivated: true,
-        activatedAt: new Date().toISOString(),
-      };
+      // Check if user profile is already complete from backend activation
+      const profile = await UserStorage.getUserProfile();
+      const device = await UserStorage.getDeviceInfo();
+      
+      if (profile && device && profile.facility && profile.state) {
+        // User profile is complete from backend, skip registration
+        console.log('[DEBUG] User profile complete from backend, skipping registration');
+        await UserStorage.setOnboardingComplete();
+        onComplete();
+        return;
+      }
 
-      await UserStorage.saveDeviceInfo(deviceInfo);
+      // Profile incomplete, proceed to registration
       setCurrentStep('registration');
     } catch (error) {
-      console.error('Error saving activation data:', error);
-      // Still proceed to registration even if storage fails
+      console.error('Error checking activation data:', error);
+      // Default to registration on error
       setCurrentStep('registration');
     }
   };

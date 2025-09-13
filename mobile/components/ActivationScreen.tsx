@@ -55,29 +55,43 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
 
   const checkNetworkConnectivity = async () => {
     try {
+      console.log('[DEBUG] Checking network connectivity...');
       // Simple network check - try to fetch a small resource
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
       const response = await fetch('https://httpbin.org/status/200', {
         method: 'HEAD',
-        timeout: 5000
+        signal: controller.signal
       });
-      setIsOnline(response.ok);
+
+      clearTimeout(timeoutId);
+      const isOnline = response.ok;
+      console.log('[DEBUG] Network connectivity check result:', isOnline);
+      setIsOnline(isOnline);
     } catch (error) {
-      console.log('Network connectivity check failed:', error);
+      console.log('[DEBUG] Network connectivity check failed:', error);
       setIsOnline(false);
     }
   };
 
   const handleActivation = async () => {
+    console.log('[DEBUG] Starting activation process...');
+    console.log('[DEBUG] Raw activation key:', activationKey);
+
     if (!activationKey.trim()) {
+      console.log('[DEBUG] No activation key provided');
       setInputError('Please enter an activation key');
       return;
     }
 
     // Clear any previous errors
     setInputError('');
+    console.log('[DEBUG] Cleared previous errors');
 
     // Normalize key: strip non-numeric characters
     const normalizedKey = activationKey.replace(/\D/g, '');
+    console.log('[DEBUG] Normalized key:', normalizedKey);
 
     // Reflect normalization in the input field (format as XXXX-XXXX-XXXX for display)
     const displayKey = normalizedKey.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3'); // display only
@@ -87,22 +101,77 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
 
     // Validate key format - 12 digits
     if (normalizedKey.length !== 12 || !/^\d{12}$/.test(normalizedKey)) {
+      console.log('[DEBUG] Invalid key format - length:', normalizedKey.length);
       setInputError('Invalid activation key format. Please enter a 12-digit numeric key.');
       return;
     }
 
+    console.log('[DEBUG] Key format validation passed');
     setIsLoading(true);
 
     try {
       let response;
+      console.log('[DEBUG] Attempting online activation via backend...');
 
       // Online activation via backend
       response = await apiService.activateDevice(normalizedKey);
+      console.log('[DEBUG] API response received:', response);
 
       if (response.success && response.data) {
+        console.log('[DEBUG] Activation successful:', response.data);
+        
+        // Save activation data to local storage
+        try {
+          const { UserStorage } = await import('../utils/userStorage');
+          const user = response.data.user;
+          const deviceInfo = {
+            deviceId: user.deviceId || `device_${Date.now()}`,
+            activationKey: normalizedKey,
+            isActivated: true,
+            activatedAt: new Date().toISOString(),
+            userId: user.userId,
+            userEmail: user.fullName, // Use fullName as email placeholder
+            userRole: user.role,
+            token: response.data.token,
+            keyExpiresAt: response.data.keyExpiresAt,
+            remainingDays: response.data.remainingDays
+          };
+          
+          await UserStorage.saveDeviceInfo(deviceInfo);
+          
+          // Save user profile from backend response (convert API UserProfile to local UserProfile)
+          const userProfile = {
+            id: user.userId,
+            fullName: user.fullName,
+            role: user.role,
+            facility: user.facility || '',
+            state: user.state || '',
+            contactInfo: '', // API UserProfile doesn't have contactInfo
+            createdAt: new Date().toISOString(),
+            lastUpdated: new Date().toISOString(),
+          };
+          
+          await UserStorage.saveUserProfile(userProfile);
+          
+          // Check if user profile is complete (has facility, state, etc.)
+          const isProfileComplete = userProfile.facility && userProfile.state;
+          
+          if (isProfileComplete) {
+            // Profile is complete, mark setup as complete and go directly to dashboard
+            await UserStorage.setOnboardingComplete();
+            console.log('[DEBUG] Profile complete, skipping registration');
+          }
+          
+          console.log('[DEBUG] Activation data saved to local storage');
+        } catch (storageError) {
+          console.error('[DEBUG] Error saving activation data:', storageError);
+          // Continue with activation even if storage fails
+        }
+        
         onActivationComplete(normalizedKey);
         return;
       } else {
+        console.log('[DEBUG] Activation failed with response:', response);
         let errorMessage = 'Activation failed. Please check your key and try again.';
 
         switch (response.code) {
@@ -135,12 +204,14 @@ export default function ActivationScreen({ onActivationComplete }: ActivationScr
             break;
         }
 
+        console.log('[DEBUG] Setting error message:', errorMessage);
         setInputError(errorMessage);
       }
     } catch (error) {
-      console.error('Activation error:', error);
+      console.error('[DEBUG] Activation error caught:', error);
       setInputError('An error occurred during activation. Please try again.');
     } finally {
+      console.log('[DEBUG] Activation process finished, setting loading to false');
       setIsLoading(false);
     }
   };

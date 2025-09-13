@@ -50,6 +50,12 @@ export interface DeviceInfo {
   isActivated: boolean;
   activatedAt?: string;
   lastSyncAt?: string;
+  userId?: string;
+  userEmail?: string;
+  userRole?: string;
+  token?: string;
+  keyExpiresAt?: string;
+  remainingDays?: number;
 }
 
 // User onboarding and profile management
@@ -261,7 +267,7 @@ export const UserStorage = {
       const hasProfile = await this.getUserProfile();
       const isActivated = await this.isDeviceActivated();
 
-      return hasOnboarded && hasProfile && isActivated;
+      return hasOnboarded && !!hasProfile && isActivated;
     } catch (error) {
       console.error('Error checking user setup completion:', error);
       return false;
